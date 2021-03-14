@@ -1,0 +1,66 @@
+{
+	"root": true,
+	"parser": "babel-eslint",
+	"parserOptions": {
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"impliedStrict": true,
+			"jsx": true
+		}
+	},
+	"env": {
+		"browser": true,
+		"node": true,
+		"es6": true
+	},
+	"plugins": ["react"],
+	"extends": [
+		"react-app",
+		"plugin:react/recommended",
+		"airbnb-base/legacy",
+		"airbnb/hooks",
+		"airbnb",
+		"prettier"
+	],
+	"rules": {
+		"semi": ["warn", "always"],
+		"quotes": ["warn", "double"],
+		"max-len": [
+			"warn",
+			{
+				"code": 100,
+				"tabWidth": 4,
+				"ignoreUrls": true,
+				"ignoreTemplateLiterals": true,
+				"ignoreStrings": true
+			}
+		],
+		"react/jsx-filename-extension": ["off"],
+		"react/state-in-constructor": ["off"],
+		"react/prop-types": ["off"],
+		"react/jsx-props-no-spreading": ["off"],
+		"react/sort-comp": ["off"],
+		"react/no-did-update-set-state": ["off"],
+		"react/jsx-sort-props": [
+			"warn",
+			{
+				"callbacksLast": true,
+				"shorthandFirst": true,
+				"shorthandLast": false,
+				"ignoreCase": true,
+				"noSortAlphabetically": false,
+				"reservedFirst": true
+			}
+		],
+		"no-console": ["warn", { "allow": ["off", "error"] }],
+		"no-restricted-syntax": "off",
+		"import/no-cycle": "off",
+		"no-param-reassign": ["warn", { "props": false }],
+		"no-plusplus": "off",
+		"no-return-assign": ["error", "except-parens"],
+		"class-methods-use-this": "off",
+		"no-case-declarations": "warn",
+		"import/prefer-default-export": "off",
+		"no-continue": "off"
+	}
+}

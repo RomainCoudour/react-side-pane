@@ -1,0 +1,19 @@
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+    - package-ecosystem: "npm"
+      open-pull-requests-limit: 5
+      directory: "/"
+      target-branch: "master"
+      versioning-strategy: increase-if-necessary
+      schedule:
+          interval: "weekly"
+          day: "sunday"
+      pull-request-branch-name:
+          separator: "-"
+      commit-message:
+          prefix: "chore(dep-bot):"
+      reviewers:
+          - "RomainCoudour"

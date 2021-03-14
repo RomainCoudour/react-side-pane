@@ -1,0 +1,43 @@
+{
+	"name": "react-side-panel",
+	"description": "React side panel",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@testing-library/jest-dom": "5.11.4",
+		"@testing-library/react": "11.1.0",
+		"@testing-library/user-event": "12.1.10",
+		"prop-types": "15.7.2",
+		"react": "17.0.1",
+		"react-dom": "17.0.1",
+		"react-transition-group": "4.4.1"
+	},
+	"devDependencies": {
+		"eslint-config-airbnb": "18.2.1",
+		"eslint-config-airbnb-base": "14.2.1",
+		"eslint-config-prettier": "8.1.0",
+		"eslint-config-react-app": "6.0.0",
+		"eslint-plugin-import": "2.22.1",
+		"eslint-plugin-jsx-a11y": "6.4.1",
+		"eslint-plugin-prettier": "3.3.1",
+		"eslint-plugin-react": "7.22.0",
+		"eslint-plugin-react-hooks": "4.2.0",
+		"husky": "4.x",
+		"prettier": "2.2.1",
+		"pretty-quick": "3.1.0"
+	},
+	"main": "src/index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/RomainCoudour/react-side-panel.git"
+	},
+	"author": "Romain Coudour",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/RomainCoudour/react-side-panel/issues"
+	},
+	"homepage": "https://github.com/RomainCoudour/react-side-panel#readme"
+}
