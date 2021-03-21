@@ -28,7 +28,7 @@ jobs:
             - name: Run update
               run: |
                   npm install -g npm-check-updates
-                  ncu -u
+                  ncu --upgrade --silent --dep prod, dev, optional, bundle --target latest
                   npm install
             - name: Create pull-request
               uses: peter-evans/create-pull-request@v3
