@@ -10,15 +10,13 @@ assignees: ""
 A clear and concise description of what the bug is.
 
 **Reproducible test case**
-Include a URL (codepen.io, jsfiddle.net, Git repository, codesandbox.io, stackblitz.com, etc.) that demonstrates the problem.
+Steps, codepen or else
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Desktop (please complete the following information):**
-
--   Browser [e.g. chrome, safari]
--   Version
+**Configuration**
+Elements combined with the library when the bug occured (browser, react version, ...rest)
 
 **Additional context**
 Add any other context about the problem here.

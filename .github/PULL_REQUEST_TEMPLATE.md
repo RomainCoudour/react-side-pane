@@ -1,9 +1,8 @@
-## Amsterdam styled components pull request
+## Pull request
 
-Before opening a pull request, please ensure:
+Before opening the PR, please ensure you provide:
 
--   [ ] You've added or updated the [README.md](../blob/master/README.md) if needed
--   [ ] Your code has the necessary tests written
--   [ ] You have updated the [CHANGELOG.md unreleased sections](../blob/master/CHANGELOG.md)
+-   A description/a bit of context regarding your code (what problem does it solve...)
+-   Necessary tests are written for your code
 
-Be kind to code reviewers, please try to keep pull requests as small and focused as possible :)
+Be kind to code reviewers, please try to keep pull requests as small and focused as possible. Thanks for contributing ;) !
