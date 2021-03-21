@@ -29,12 +29,9 @@
 	},
 	"scripts": {
 		"dev": "rollup -c -w",
-		"test": "node test/test.js",
 		"clean": "rimraf dist",
-		"build": "cross-env NODE_ENV=production rollup -c",
 		"lint": "eslint src test --max-warnings 0",
-		"prepare": "npm run clean",
-		"pretest": "npm run lint"
+		"build": "cross-env NODE_ENV=production rollup -c"
 	},
 	"peerDependencies": {
 		"react": ">=16.6.0",
