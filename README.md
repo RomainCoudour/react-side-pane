@@ -1,7 +1,7 @@
 # react-side-pane [![npm][npm-badge]][npm] [![Dependabot badge][dependabot-badge]](https://dependabot.com/)
 > First developed and used by [Aitenders](https://www.aitenders.com/)
 
-[![styled with: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![styled with: prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![License: MIT](https://img.shields.io/github/license/RomainCoudour/react-side-pane)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/npm/dependency-version/react-side-pane/peer/react)](https://www.npmjs.com/package/react)
 [![React transition group](https://img.shields.io/npm/dependency-version/react-side-pane/react-transition-group)](https://www.npmjs.com/package/react-transition-group)
