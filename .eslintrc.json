@@ -61,6 +61,7 @@
 		"class-methods-use-this": "off",
 		"no-case-declarations": "warn",
 		"import/prefer-default-export": "off",
-		"no-continue": "off"
+		"no-continue": "off",
+		"import/no-extraneous-dependencies": "off"
 	}
 }

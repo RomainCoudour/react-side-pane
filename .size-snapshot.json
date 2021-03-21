@@ -1,0 +1,26 @@
+{
+	"react-side-panel.cjs.js": {
+		"bundled": 33444,
+		"minified": 16960,
+		"gzipped": 5460
+	},
+	"react-side-panel.umd.js": {
+		"bundled": 34691,
+		"minified": 14229,
+		"gzipped": 4998
+	},
+	"react-side-panel.es.js": {
+		"bundled": 32866,
+		"minified": 16489,
+		"gzipped": 5415,
+		"treeshaked": {
+			"rollup": {
+				"code": 10891,
+				"import_statements": 46
+			},
+			"webpack": {
+				"code": 14858
+			}
+		}
+	}
+}

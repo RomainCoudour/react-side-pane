@@ -1,0 +1,25 @@
+{
+	"presets": [
+		[
+			"@babel/preset-env",
+			{
+				"targets": "> 0.25%, not dead"
+			}
+		],
+		"@babel/preset-react"
+	],
+	"plugins": [
+		"@babel/plugin-transform-runtime",
+		"@babel/plugin-proposal-object-rest-spread",
+		"@babel/plugin-transform-react-display-name",
+		"@babel/plugin-transform-react-jsx",
+		[
+			"transform-react-remove-prop-types",
+			{
+				"mode": "wrap",
+				"ignoreFilenames": ["node_modules"]
+			}
+		],
+		"react-css-modules"
+	]
+}

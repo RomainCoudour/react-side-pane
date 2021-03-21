@@ -1,0 +1,53 @@
+.sidePanel {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.2);
+	z-index: 1000;
+}
+.sidePanel:not([open]) {
+	display: none;
+}
+.sidePanel[data-disable-backdrop="true"] {
+	background-color: transparent;
+}
+.sidePanel__wrapper {
+	display: flex;
+	height: inherit;
+	width: inherit;
+}
+.sidePanel__backdrop {
+	height: 100%;
+	flex: 1 1 auto;
+	pointer-events: auto;
+	will-change: opacity;
+	-webkit-transition: opacity 250ms ease-out;
+	-o-transition: opacity 250ms ease-out;
+	transition: opacity 250ms ease-out;
+	outline: none;
+}
+.sidePanel__panel {
+	height: 100%;
+	overflow: hidden;
+	background-color: rgba(255, 255, 255, 1);
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+	max-height: 100%;
+	max-width: 100%;
+	pointer-events: auto;
+	will-change: transform;
+	-webkit-transition: -webkit-transform 250ms ease-out;
+	transition: -webkit-transform 250ms ease-out;
+	-o-transition: transform 250ms ease-out;
+	transition: transform 250ms ease-out;
+	transition: transform 250ms ease-out, -webkit-transform 250ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+	.sidePanel__panel {
+		transition: none;
+	}
+	.sidePanel__backdrop {
+		transition: none;
+	}
+}
