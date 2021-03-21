@@ -30,10 +30,10 @@
 	"scripts": {
 		"dev": "rollup -c -w",
 		"test": "node test/test.js",
-		"build": "npm run clean && cross-env NODE_ENV=production rollup -c",
 		"clean": "rimraf dist",
-		"lint": "eslint src test --max-warning=0",
-		"prepare": "npm run clean && npm run build",
+		"build": "cross-env NODE_ENV=production rollup -c",
+		"lint": "eslint src test --max-warnings 0",
+		"prepare": "npm run clean",
 		"pretest": "npm run lint"
 	},
 	"peerDependencies": {
