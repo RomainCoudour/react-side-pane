@@ -1,5 +1,4 @@
 {
-	"private": true,
 	"name": "react-side-panel",
 	"description": "React component - Side panel",
 	"version": "0.0.0-development",
@@ -30,7 +29,7 @@
 	"scripts": {
 		"dev": "rollup -c -w",
 		"clean": "rimraf dist",
-		"lint": "eslint src test --max-warnings 0",
+		"lint": "eslint src --max-warnings 0",
 		"build": "cross-env NODE_ENV=production rollup -c"
 	},
 	"peerDependencies": {
