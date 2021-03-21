@@ -9,7 +9,7 @@ import pkg from "./package.json";
 
 const external = Object.keys(pkg.peerDependencies);
 const globals = { react: "React", "react-dom": "ReactDOM" };
-const name = "ReactSidePanel";
+const name = "ReactSidePane";
 const env = process.env.NODE_ENV || "development";
 const plugins = [
 	postcss({

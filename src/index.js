@@ -1,3 +1,3 @@
-import SidePanel from "./side-panel/SidePanel";
+import SidePane from "./side-pane/SidePane";
 
-export default SidePanel;
+export default SidePane;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Transition } from "react-transition-group";
-import styles from "./SidePanel.css";
+import styles from "./SidePane.css";
 
 function getTransition(duration) {
 	return {
@@ -19,7 +19,7 @@ const transitionStyles = {
 	exiting: { transform: "translateX(100%)" },
 	exited: { transform: "translateX(100%)" },
 };
-export default function Panel({
+export default function Pane({
 	open,
 	width,
 	duration,
@@ -43,7 +43,7 @@ export default function Panel({
 		>
 			{(state) => (
 				<div
-					className={styles.sidePanel__panel}
+					className={styles.sidePane__pane}
 					style={{
 						...defaultTransitionStyle,
 						...dynamicTransitionStyles[state],

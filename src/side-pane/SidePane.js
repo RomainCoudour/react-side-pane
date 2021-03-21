@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState, useMemo, useCallback } from "react";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
-import Panel from "./Panel";
-import styles from "./SidePanel.css";
+import Pane from "./Pane";
+import styles from "./SidePane.css";
 
 function getTranslateValue(parentWidth, childWidth, offset) {
 	let value = 0;
@@ -25,18 +25,18 @@ function getTransition(duration) {
 }
 
 /**
- * Animated left-to-right side panel with a backdrop.
+ * Animated left-to-right side pane with a backdrop.
  *
  * @param children One React element or a function that can hold the onActive callback
  * @param onActive Callback from child to parent to pass on the child width on open
- * @param containerId DOM element id where to portal SidePanel for rendering
+ * @param containerId DOM element id where to portal SidePane for rendering
  * @param duration Animation duration (ms). Aniamtions are diabled when reduce-motion is active
  * @param disableBackdrop Makes the backdrop transparent
- * @param disableBackdropClick Does not close the panel when user clicks on the backdrop
+ * @param disableBackdropClick Does not close the pane when user clicks on the backdrop
  * @param offset Space (width in %) between parent and child when both are open
- * @param width Width of the panel in percentage. Max: 100; Rest: backdrop
+ * @param width Width of the pane in percentage. Max: 100; Rest: backdrop
  */
-export default function SidePanel({
+export default function SidePane({
 	open,
 	children,
 	onClose,
@@ -73,21 +73,21 @@ export default function SidePanel({
 	};
 	return createPortal(
 		<div
-			className={styles.sidePanel}
+			className={styles.sidePane}
 			data-disable-backdrop={disableBackdrop}
 			open={open || active}
 		>
-			<div className={styles.sidePanel__wrapper}>
+			<div className={styles.sidePane__wrapper}>
 				<div
 					aria-label="backdrop"
-					className={styles.sidePanel__backdrop}
+					className={styles.sidePane__backdrop}
 					role="button"
 					style={getTransition(duration)}
 					tabIndex={0}
 					onClick={(!disableBackdropClick && onClose) || null}
 					onKeyDown={handleEscape}
 				/>
-				<Panel
+				<Pane
 					duration={duration}
 					open={open}
 					translateValue={translateValue}
@@ -101,13 +101,13 @@ export default function SidePanel({
 							: React.cloneElement(React.Children.only(children), {
 									onActive: handleActive,
 							  }))}
-				</Panel>
+				</Pane>
 			</div>
 		</div>,
 		domNode.current
 	);
 }
-SidePanel.propTypes = {
+SidePane.propTypes = {
 	open: PropTypes.bool,
 	children: PropTypes.oneOfType([PropTypes.func, PropTypes.element]).isRequired,
 	onClose: PropTypes.func.isRequired,

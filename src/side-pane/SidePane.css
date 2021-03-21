@@ -1,4 +1,4 @@
-.sidePanel {
+.sidePane {
 	position: fixed;
 	top: 0;
 	bottom: 0;
@@ -7,18 +7,18 @@
 	background-color: rgba(0, 0, 0, 0.2);
 	z-index: 1000;
 }
-.sidePanel:not([open]) {
+.sidePane:not([open]) {
 	display: none;
 }
-.sidePanel[data-disable-backdrop="true"] {
+.sidePane[data-disable-backdrop="true"] {
 	background-color: transparent;
 }
-.sidePanel__wrapper {
+.sidePane__wrapper {
 	display: flex;
 	height: inherit;
 	width: inherit;
 }
-.sidePanel__backdrop {
+.sidePane__backdrop {
 	height: 100%;
 	flex: 1 1 auto;
 	pointer-events: auto;
@@ -28,7 +28,7 @@
 	transition: opacity 250ms ease-out;
 	outline: none;
 }
-.sidePanel__panel {
+.sidePane__pane {
 	height: 100%;
 	overflow: hidden;
 	background-color: rgba(255, 255, 255, 1);
@@ -44,10 +44,10 @@
 	transition: transform 250ms ease-out, -webkit-transform 250ms ease-out;
 }
 @media (prefers-reduced-motion: reduce) {
-	.sidePanel__panel {
+	.sidePane__pane {
 		transition: none;
 	}
-	.sidePanel__backdrop {
+	.sidePane__backdrop {
 		transition: none;
 	}
 }

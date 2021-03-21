@@ -1,6 +1,6 @@
 {
-	"name": "react-side-panel",
-	"description": "React component - Side panel",
+	"name": "react-side-pane",
+	"description": "React component - Side pane",
 	"version": "0.0.0-development",
 	"license": "MIT",
 	"keywords": [
@@ -9,16 +9,18 @@
 		"react-component",
 		"component",
 		"side-panel",
+		"side-pane",
 		"side",
+		"pane",
 		"panel"
 	],
 	"author": "Romain Coudour (https://github.com/RomainCoudour)",
-	"homepage": "https://github.com/RomainCoudour/react-side-panel",
-	"repository": "github:RomainCoudour/react-side-panel",
-	"bugs": "https://github.com/RomainCoudour/react-side-panel/issues",
-	"main": "dist/react-side-panel.cjs.js",
-	"module": "dist/react-side-panel.es.js",
-	"browser": "dist/react-side-panel.umd.js",
+	"homepage": "https://github.com/RomainCoudour/react-side-pane",
+	"repository": "github:RomainCoudour/react-side-pane",
+	"bugs": "https://github.com/RomainCoudour/react-side-pane/issues",
+	"main": "dist/react-side-pane.cjs.js",
+	"module": "dist/react-side-pane.es.js",
+	"browser": "dist/react-side-pane.umd.js",
 	"files": [
 		"dist"
 	],
@@ -30,7 +32,7 @@
 		"dev": "rollup -c -w",
 		"clean": "rimraf dist",
 		"lint": "eslint src --max-warnings 0",
-		"build": "cross-env NODE_ENV=production rollup -c"
+		"build": "npm run clean && cross-env NODE_ENV=production rollup -c"
 	},
 	"peerDependencies": {
 		"react": ">=16.6.0",
