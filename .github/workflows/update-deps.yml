@@ -1,6 +1,8 @@
 name: Automated update dependencies
 on:
     workflow_dispatch:
+    schedule:
+        - cron: "1 0 1 * *"
 jobs:
     update-deps:
         name: Automated update dependencies
