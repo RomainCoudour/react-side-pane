@@ -1,6 +1,6 @@
 {
 	"root": true,
-	"parser": "babel-eslint",
+	"parser": "@babel/eslint-parser",
 	"parserOptions": {
 		"sourceType": "module",
 		"ecmaFeatures": {
@@ -52,16 +52,7 @@
 				"reservedFirst": true
 			}
 		],
-		"no-console": ["warn", { "allow": ["off", "error"] }],
-		"no-restricted-syntax": "off",
-		"import/no-cycle": "off",
-		"no-param-reassign": ["warn", { "props": false }],
 		"no-plusplus": "off",
-		"no-return-assign": ["error", "except-parens"],
-		"class-methods-use-this": "off",
-		"no-case-declarations": "warn",
-		"import/prefer-default-export": "off",
-		"no-continue": "off",
-		"import/no-extraneous-dependencies": "off"
+		"no-return-assign": ["error", "except-parens"]
 	}
 }
