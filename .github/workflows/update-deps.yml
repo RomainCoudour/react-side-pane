@@ -28,7 +28,7 @@ jobs:
             - name: Run update
               run: |
                   npm install -g npm-check-updates
-                  ncu -u --dep prod, dev, optional, bundle --target latest
+                  ncu -u --packageFile ./package.json --reject husky,react,react-dom
                   npm install
             - name: Create pull-request
               uses: peter-evans/create-pull-request@v3
