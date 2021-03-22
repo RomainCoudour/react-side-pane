@@ -35,18 +35,18 @@ react-side-pane is using [React Portals](https://reactjs.org/docs/portals.html) 
 
 ### One pane usage
 ```javascript
-<SidePanel open={open} width={50} onClose={handleClose}>
+<SidePane open={open} width={50} onClose={handleClose}>
   <SomeComponent /> // or some function {() => <>Hello world!</>}
-</SidePanel>
+</SidePane>
 ```
 
 ### Multi-pane usage
 ```javascript
-<SidePanel open={open} width={50} onClose={handleClose}>
+<SidePane open={open} width={50} onClose={handleClose}>
   {({ onActive }) =>
     <SomeComponentWithASidePane onActive={onActive} /> // Assuming SomeComponent calls a SidePane
   }
-</SidePanel>
+</SidePane>
 ```
 ```javascript
 // SomeComponent.js
@@ -55,17 +55,17 @@ export default function SomeComponent({ someComponentProps, onActive }) { // cal
   return (
     <>
       {...}
-      <SidePanel open={open} width={50} onActive={onActive} onClose={handleClose}>
+      <SidePane open={open} width={50} onActive={onActive} onClose={handleClose}>
         <span>Hello world!</span>
-      </SidePanel>
+      </SidePane>
     </>
   );
 }
 
 // Elsewhere
-<SidePanel open={open} width={50} onClose={handleClose}>
+<SidePane open={open} width={50} onClose={handleClose}>
   <SomeComponent someComponentProps={...} />
-</SidePanel>
+</SidePane>
 ```
 
 ## Props
