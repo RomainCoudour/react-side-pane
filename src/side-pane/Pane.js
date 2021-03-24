@@ -43,7 +43,10 @@ export default function Pane({
 		>
 			{(state) => (
 				<div
+					aria-label="side pane"
+					aria-modal="true"
 					className={styles.sidePane__pane}
+					role="dialog"
 					style={{
 						...defaultTransitionStyle,
 						...dynamicTransitionStyles[state],
