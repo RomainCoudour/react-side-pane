@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 import Pane from "./Pane";
@@ -27,21 +27,21 @@ function getTransition(duration) {
 /**
  * Animated left-to-right side pane with a backdrop.
  *
+ * @param {boolean} open Whether or not the pane is open
  * @param children One React element or a function that can hold the onActive callback
- * @param onActive Callback from child to parent to pass on the child width on open
- * @param containerId DOM element id where to portal SidePane for rendering
- * @param duration Animation duration (ms). Aniamtions are diabled when reduce-motion is active
- * @param disableBackdrop Makes the backdrop transparent
- * @param disableBackdropClick Does not close the pane when user clicks on the backdrop
- * @param offset Space (width in %) between parent and child when both are open
- * @param width Width of the pane in percentage. Max: 100; Rest: backdrop
+ * @param {boolean} disableBackdrop Makes the backdrop transparent
+ * @param {boolean} disableBackdropClick Does not close the pane when user clicks on the backdrop
+ * @param {number} duration Animation dur. (ms). Aniamtions are diabled when reduce-motion is active
+ * @param {number} offset Space (width in %) between parent and child when both are open
+ * @param {number} width Width of the pane in percentage. Max: 100; Rest: backdrop
+ * @callback onClose
+ * @callback onActive Callback from child to parent to pass on the child width on open
  */
 export default function SidePane({
-	open,
+	open = false,
 	children,
 	onClose,
 	onActive = null,
-	containerId = "root",
 	disableBackdrop = false,
 	disableBackdropClick = false,
 	duration = 250,
@@ -50,7 +50,6 @@ export default function SidePane({
 }) {
 	const [active, setActive] = useState(false);
 	const [activeChildWidth, setActiveChildWidth] = useState(0);
-	const domNode = useRef(document.getElementById(containerId));
 	const translateValue = useMemo(() => getTranslateValue(width, activeChildWidth, offset), [
 		width,
 		activeChildWidth,
@@ -104,7 +103,7 @@ export default function SidePane({
 				</Pane>
 			</div>
 		</div>,
-		domNode.current
+		document.body
 	);
 }
 SidePane.propTypes = {
@@ -115,7 +114,6 @@ SidePane.propTypes = {
 	duration: PropTypes.number,
 	disableBackdrop: PropTypes.bool,
 	disableBackdropClick: PropTypes.bool,
-	containerId: PropTypes.string,
 	offset: PropTypes.number,
 	width: PropTypes.number,
 };

@@ -1,4 +1,5 @@
 # react-side-pane [![npm][npm-badge]][npm] [![Dependabot badge][dependabot-badge]](https://dependabot.com/)
+
 > First developed and used by [Aitenders](https://www.aitenders.com/)
 
 [![License: MIT](https://img.shields.io/github/license/RomainCoudour/react-side-pane)](https://opensource.org/licenses/MIT)
@@ -15,14 +16,18 @@
 [npm]: https://www.npmjs.org/package/react-side-pane
 
 ## [Live Demo](https://codesandbox.io/s/react-side-pane-giu40)
+
 ## Getting started
 
 Install react-side-pane
+
 ```
 npm i react-side-pane
 yarn add react-side-pane
-```  
+```
+
 And import it inside your components via
+
 ```javascript
 import SidePane from "react-side-pane";
 ```
@@ -31,23 +36,28 @@ import SidePane from "react-side-pane";
 
 react-side-pane is using [React Portals](https://reactjs.org/docs/portals.html) under the hood and [React transition group](https://www.npmjs.com/package/react-transition-group) to handle the transitions. The SidePane should take all the screen and has for now a z-index of 1000. It can accept only one child (either a function or an element/component/dom node).
 
- The pane only appears from the left.. it is really a react-left-side-pane at the moment. Also, react-side-pane offers only a few props to customize the pane so if you need any additionnal tweaks, feel free to open an issue or to contribute.
+The pane only appears from the left.. it is really a react-left-side-pane at the moment. Also, react-side-pane offers only a few props to customize the pane so if you need any additionnal tweaks, feel free to open an issue or to contribute.
 
 ### One pane usage
+
 ```javascript
 <SidePane open={open} width={50} onClose={handleClose}>
-  <SomeComponent /> // or some function {() => <>Hello world!</>}
+	<SomeComponent /> // or some function {() => <>Hello world!</>}
 </SidePane>
 ```
 
 ### Multi-pane usage
+
 ```javascript
 <SidePane open={open} width={50} onClose={handleClose}>
-  {({ onActive }) =>
-    <SomeComponentWithASidePane onActive={onActive} /> // Assuming SomeComponent calls a SidePane
-  }
+	{
+		({ onActive }) => <SomeComponentWithASidePane onActive={onActive} /> // Assuming SomeComponent calls a SidePane
+	}
 </SidePane>
 ```
+
+or
+
 ```javascript
 // SomeComponent.js
 export default function SomeComponent({ someComponentProps, onActive }) { // callback received from SidePane
@@ -70,18 +80,17 @@ export default function SomeComponent({ someComponentProps, onActive }) { // cal
 
 ## Props
 
-| Prop          | Description   | Default   
-| ------------- | ------------- |:-----------:
-| open          | Whether or not the pane is open | false
-| children      | Function or component inside the pane  | (required)
-| onClose      | Callback called when pane is closing (backdrop click)     | (required)
-| onActive     | Callback between SidePane to translateX when several SidePane are opened      | null
-| duration      | Duration of the transition onExit (react-transition-group)    | 250 (ms)
-| disableBackdrop      | Hide the backdrop (just its color)      | false
-| disableBackdropClick      | Disable the onClose trigger when clicking on the backdrop  | false
-| containerId      | DOM Node id in which the SidePane will be contained      | "root"
-| offset      | Space (width in %) between parent and child when both are open | 10 (%)
-| width      | Width of the pane in percentage. Max: 100; Rest: backdrop      | 0 (%)
+| Prop                 | Description                                                              |  Default   |
+| -------------------- | ------------------------------------------------------------------------ | :--------: |
+| open                 | Whether or not the pane is open                                          |   false    |
+| children             | Function or component inside the pane                                    | (required) |
+| onClose              | Callback called when pane is closing (backdrop click)                    | (required) |
+| onActive             | Callback between SidePane to translateX when several SidePane are opened |    null    |
+| duration             | Duration of the transition onExit (react-transition-group)               |  250 (ms)  |
+| disableBackdrop      | Hide the backdrop (just its color)                                       |   false    |
+| disableBackdropClick | Disable the onClose trigger when clicking on the backdrop                |   false    |
+| offset               | Space (width in %) between parent and child when both are open           |   10 (%)   |
+| width                | Width of the pane in percentage. Max: 100; Rest: backdrop                |   0 (%)    |
 
 ## Credit
 
