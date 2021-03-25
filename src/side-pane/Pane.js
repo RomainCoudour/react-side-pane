@@ -20,6 +20,9 @@ const transitionStyles = {
 	exited: { transform: "translateX(100%)" },
 };
 export default function Pane({
+	ariaLabel,
+	ariaLabelledby,
+	ariaDescribedBy,
 	duration,
 	children,
 	onEnter,
@@ -43,7 +46,9 @@ export default function Pane({
 		>
 			{(state) => (
 				<div
-					aria-label="side pane"
+					aria-describedby={ariaDescribedBy}
+					aria-label={ariaLabel}
+					aria-labelledby={ariaLabelledby}
 					aria-modal="true"
 					className={styles.sidePane__pane}
 					role="dialog"

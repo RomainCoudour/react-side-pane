@@ -1,26 +1,26 @@
 {
-	"react-side-pane.cjs.js": {
-		"bundled": 32147,
-		"minified": 16288,
-		"gzipped": 5423
-	},
-	"react-side-pane.umd.js": {
-		"bundled": 34244,
-		"minified": 13868,
-		"gzipped": 4979
-	},
-	"react-side-pane.es.js": {
-		"bundled": 31569,
-		"minified": 15817,
-		"gzipped": 5372,
-		"treeshaked": {
-			"rollup": {
-				"code": 9316,
-				"import_statements": 46
-			},
-			"webpack": {
-				"code": 14463
-			}
-		}
-	}
+  "react-side-pane.cjs.js": {
+    "bundled": 78007,
+    "minified": 37048,
+    "gzipped": 10868
+  },
+  "react-side-pane.umd.js": {
+    "bundled": 82244,
+    "minified": 31524,
+    "gzipped": 9955
+  },
+  "react-side-pane.es.js": {
+    "bundled": 77285,
+    "minified": 36448,
+    "gzipped": 10816,
+    "treeshaked": {
+      "rollup": {
+        "code": 22708,
+        "import_statements": 46
+      },
+      "webpack": {
+        "code": 32115
+      }
+    }
+  }
 }

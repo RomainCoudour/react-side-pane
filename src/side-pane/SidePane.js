@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import FocusTrap from "focus-trap-react";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 import Pane from "./Pane";
@@ -24,6 +26,10 @@ function getTransition(duration) {
 	};
 }
 
+function getAppNode(appNodeId) {
+	return document.getElementById(appNodeId);
+}
+
 /**
  * Animated left-to-right side pane with a backdrop.
  *
@@ -38,16 +44,29 @@ function getTransition(duration) {
  * @callback onActive Callback from child to parent to pass on the child width on open
  */
 export default function SidePane({
-	open = false,
+	appNodeId = "root",
+	"aria-describedby": ariaDescribedBy,
+	"aria-label": ariaLabel = "side pane",
+	"aria-labelledby": ariaLabelledby,
+	backdropClassName = "",
+	backdropStyle = {},
 	children,
-	onClose,
-	onActive = null,
-	disableBackdrop = false,
+	className = "",
 	disableBackdropClick = false,
+	disableEscapeKeyDown = false, // Shouldn't be disabled as it's part of a11y specs
+	disableRestoreFocus = false, // Shouldn't be disabled as it's part of a11y specs
 	duration = 250,
+	hideBackdrop = false,
+	initialFocus = null,
 	offset = 10,
+	onActive = null,
+	onClose,
+	open = false,
+	style = {},
 	width = 0,
 }) {
+	const ref = useRef(null);
+	const previousActiveElementRef = useRef(null);
 	const [active, setActive] = useState(false);
 	const [activeChildWidth, setActiveChildWidth] = useState(0);
 	const translateValue = useMemo(() => getTranslateValue(width, activeChildWidth, offset), [
@@ -55,54 +74,117 @@ export default function SidePane({
 		activeChildWidth,
 		offset,
 	]);
+
+	useEffect(() => {
+		const { current } = ref;
+		const handleEscape = ({ code, key, keyCode }) => {
+			const keyValue = code || key || keyCode;
+			const isEscape = ["Escape", "Esc", 27].some((value) => value === keyValue);
+			if (isEscape && typeof onClose === "function") {
+				onClose();
+			}
+		};
+		if (!disableEscapeKeyDown && open) {
+			current?.addEventListener("keydown", handleEscape);
+		}
+		return () => {
+			current?.removeEventListener("keydown", handleEscape);
+		};
+	}, [open, disableEscapeKeyDown, onClose]);
+
+	useEffect(() => {
+		const { current } = ref;
+		const handleEscape = ({ code, key, keyCode }) => {
+			const keyValue = code || key || keyCode;
+			const isEscape = ["Escape", "Esc", 27].some((value) => value === keyValue);
+			if (isEscape && typeof onClose === "function") {
+				onClose();
+			}
+		};
+		if (open) {
+			const { activeElement } = document;
+			previousActiveElementRef.current = activeElement;
+			activeElement.blur();
+			current?.addEventListener("keydown", handleEscape);
+			getAppNode(appNodeId)?.setAttribute("aria-hidden", "true");
+		} else {
+			getAppNode(appNodeId)?.setAttribute("aria-hidden", "false");
+			previousActiveElementRef.current?.focus();
+		}
+		return () => {
+			current?.removeEventListener("keydown", handleEscape);
+		};
+	}, [open, appNodeId, onClose]);
+
+	useEffect(() => {
+		const { current } = ref;
+		const isActive = open || active;
+		if (isActive) {
+			disableBodyScroll(current);
+		} else {
+			enableBodyScroll(current);
+		}
+	}, [open, active]);
+
 	useEffect(() => {
 		const isActive = open || active;
-		if (!isActive || typeof onActive !== "function") {
-			return;
+		if (isActive && typeof onActive === "function") {
+			onActive(open ? translateValue : 0);
 		}
-		onActive(open ? translateValue : 0);
 	}, [open, active, translateValue, onActive]);
+
 	const handleActive = useCallback((childWidth) => setActiveChildWidth(childWidth), []);
 	const handleEnter = useCallback(() => setActive(true), []);
 	const handleExited = useCallback(() => setActive(false), []);
-	const handleEscape = ({ code }) => {
-		if (code === "Escape" && typeof onClose === "function") {
-			onClose();
-		}
-	};
+
 	return createPortal(
-		<div
-			className={styles.sidePane}
-			data-disable-backdrop={disableBackdrop}
-			open={open || active}
+		<FocusTrap
+			active={open || active}
+			focusTrapOptions={{
+				fallbackFocus: () => ref.current,
+				initialFocus,
+				returnFocusOnDeactivate: !disableRestoreFocus,
+			}}
 		>
-			<div className={styles.sidePane__wrapper}>
-				<div
-					aria-label="backdrop"
-					className={styles.sidePane__backdrop}
-					role="button"
-					style={getTransition(duration)}
-					tabIndex={0}
-					onClick={(!disableBackdropClick && onClose) || null}
-					onKeyDown={handleEscape}
-				/>
-				<Pane
-					duration={duration}
-					open={open}
-					translateValue={translateValue}
-					width={width}
-					onEnter={handleEnter}
-					onExited={handleExited}
-				>
-					{active &&
-						(typeof children === "function"
-							? children({ onActive: handleActive })
-							: React.cloneElement(React.Children.only(children), {
-									onActive: handleActive,
-							  }))}
-				</Pane>
+			<div
+				ref={ref}
+				className={styles.sidePane}
+				data-disable-backdrop={hideBackdrop}
+				open={open || active}
+				tabIndex={-1}
+			>
+				<div className={styles.sidePane__wrapper}>
+					<div
+						aria-label="backdrop"
+						className={`${styles.sidePane__backdrop} ${backdropClassName || ""}`}
+						role="presentation"
+						style={{ ...getTransition(duration), cursor: "pointer", ...backdropStyle }}
+						onClick={(!disableBackdropClick && onClose) || null}
+					/>
+					<Pane
+						ariaDescribedBy={ariaDescribedBy}
+						ariaLabel={ariaLabel}
+						ariaLabelledby={ariaLabelledby}
+						className={className}
+						duration={duration}
+						open={open}
+						style={style}
+						tabIndex={0}
+						translateValue={translateValue}
+						width={width}
+						onEnter={handleEnter}
+						onExited={handleExited}
+					>
+						{active &&
+							(typeof children === "function"
+								? children({ onActive: handleActive })
+								: React.cloneElement(React.Children.only(children), {
+										onActive: handleActive,
+								  }))}
+					</Pane>
+				</div>
 			</div>
-		</div>,
+		</FocusTrap>,
 		document.body
 	);
 }
