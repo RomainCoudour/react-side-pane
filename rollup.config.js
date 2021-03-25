@@ -34,13 +34,12 @@ export default [
 		input: "src/index.js",
 		external,
 		output: [
-			{ exports: "auto", sourcemap: true, file: pkg.main, format: "cjs" },
-			{ exports: "auto", sourcemap: true, file: pkg.module, format: "es" },
+			{ exports: "auto", file: pkg.main, format: "cjs" },
+			{ exports: "auto", file: pkg.module, format: "es" },
 			{
 				name,
 				globals,
 				exports: "auto",
-				sourcemap: true,
 				file: pkg.browser,
 				format: "umd",
 			},
