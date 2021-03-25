@@ -20,13 +20,13 @@ const transitionStyles = {
 	exited: { transform: "translateX(100%)" },
 };
 export default function Pane({
-	open,
-	width,
 	duration,
-	translateValue,
+	children,
 	onEnter,
 	onExited,
-	children,
+	open,
+	translateValue,
+	width,
 }) {
 	const dynamicTransitionStyles = {
 		...transitionStyles,
