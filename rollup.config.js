@@ -2,17 +2,42 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import babel from "@rollup/plugin-babel";
-import { sizeSnapshot } from "rollup-plugin-size-snapshot";
 import autoprefixer from "autoprefixer";
 import postcss from "rollup-plugin-postcss";
+import filesize from "rollup-plugin-filesize";
+import { terser } from "rollup-plugin-terser";
 import pkg from "./package.json";
 
-const external = Object.keys(pkg.peerDependencies || {});
-const globals = { react: "React", "react-dom": "ReactDOM" };
+const makeExternalPredicate = (externalArr) => {
+	if (externalArr.length === 0) {
+		return () => false;
+	}
+	return (id) => new RegExp(`^(${externalArr.join("|")})($|/)`).test(id);
+};
+
 const name = "ReactSidePane";
 const env = process.env.NODE_ENV || "development";
+const deps = [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})];
+const external = makeExternalPredicate(deps);
+const globals = {
+	react: "React",
+	"react-dom": "ReactDOM",
+	"focus-trap-react": "FocusTrap",
+	"body-scroll-lock ": "bodyScrollLock",
+	"prop-types ": "PropTypes",
+	"react-transition-group ": "reactTransitionGroup",
+	"@babel/runtime/helpers/defineProperty": "_defineProperty$1",
+	"@babel/runtime/helpers/slicedToArray": "_slicedToArray",
+};
 const plugins = [
 	resolve(),
+	babel({
+		exclude: /node_modules/,
+		include: "src/**/*",
+		babelHelpers: "runtime",
+		babelrc: true,
+	}),
+	commonjs(),
 	postcss({
 		plugins: [autoprefixer()],
 		minimize: true,
@@ -20,28 +45,36 @@ const plugins = [
 		autoModules: true,
 		extract: false,
 	}),
-	babel({
-		exclude: /node_modules/,
-		babelHelpers: "runtime",
-	}),
-	commonjs(),
 	replace({ "process.env.NODE_ENV": JSON.stringify(env), preventAssignment: true }),
-	sizeSnapshot(),
+	filesize(),
 ];
+
+if (env === "production") {
+	plugins.push(terser());
+}
 
 export default [
 	{
 		input: "src/index.js",
 		external,
 		output: [
-			{ exports: "auto", file: pkg.main, format: "cjs" },
-			{ exports: "auto", file: pkg.module, format: "es" },
+			{
+				file: pkg.main,
+				format: "cjs",
+				exports: "named",
+			},
+			{
+				file: pkg.module,
+				format: "es",
+				exports: "named",
+			},
 			{
 				name,
 				globals,
-				exports: "auto",
 				file: pkg.browser,
 				format: "umd",
+				sourcemap: true,
+				exports: "named",
 			},
 		],
 		plugins,
