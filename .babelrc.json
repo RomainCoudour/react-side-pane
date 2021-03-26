@@ -1,18 +1,6 @@
 {
-	"presets": [
-		[
-			"@babel/preset-env",
-			{
-				"targets": "> 0.25%, not dead"
-			}
-		],
-		"@babel/preset-react"
-	],
+	"presets": ["@babel/preset-env", "@babel/preset-react"],
 	"plugins": [
-		"@babel/plugin-transform-runtime",
-		"@babel/plugin-proposal-object-rest-spread",
-		"@babel/plugin-transform-react-display-name",
-		"@babel/plugin-transform-react-jsx",
 		[
 			"transform-react-remove-prop-types",
 			{
@@ -20,6 +8,16 @@
 				"ignoreFilenames": ["node_modules"]
 			}
 		],
+		[
+			"@babel/plugin-transform-runtime",
+			{
+				"absoluteRuntime": false,
+				"corejs": false,
+				"helpers": true
+			}
+		],
+		"@babel/plugin-proposal-optional-chaining",
+		"@babel/plugin-proposal-object-rest-spread",
 		"react-css-modules"
 	]
 }
