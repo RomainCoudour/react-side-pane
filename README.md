@@ -99,17 +99,16 @@ export default function SomeComponent({ someComponentProps, onActive }) {
 | hideBackdrop         | Makes the backdrop transparent                                       |      false       |
 | initialFocus         | You can specify an element to receive initial focus. (see Notes)     |       null       |
 | offset               | Space (width in %) between parent and child when both are open       |      10 (%)      |
-| onActive             | Whether to display the pane                                          |       null       |
-| `onClose`            | Style object to pass to the pane                                     |    (required)    |
-| `open`               | Width of the pane in percentage. Max: 100.                           | false (required) |
-| style                | Callback from child to parent to pass on the child width on open     |        {}        |
-| width                | Callback triggered on Escape or click on backdrop                    |      0 (%)       |
+| onActive             | Callback from child to parent to pass on the child width on open     |       null       |
+| `onClose`            | Callback triggered on Escape or click on backdrop                    |    (required)    |
+| `open`               | Whether to display the pane                                          | false (required) |
+| style                | Style object to pass to the pane                                     |        {}        |
+| width                | Width of the pane in percentage. Max: 100.                           |      0 (%)       |
 
 ### Notes
 
-Recommended: `disableEscapeKeyDown` and `disableRestoreFocus` should not be true as there are part of a11y specs.
-
-`initialFocus`: You can specify an element to receive initial focus. Can be a DOM node, or a selector string (which will be passed to document.querySelector() to find the DOM node), or a function that returns a DOM node. [focus-trap](https://github.com/focus-trap/focus-trap#usage)
+_Recommended_: `disableEscapeKeyDown` and `disableRestoreFocus` should not be true as there are part of a11y specs.
+`initialFocus`: You can specify an element to receive initial focus. Can be a DOM node, or a selector string (which will be passed to document.querySelector() to find the DOM node), or a function that returns a DOM node. ([focus-trap](https://github.com/focus-trap/focus-trap#usage))
 
 ## Credit
 
