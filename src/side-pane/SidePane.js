@@ -66,7 +66,6 @@ export default function SidePane({
 	width = 0,
 }) {
 	const ref = useRef(null);
-	const previousActiveElementRef = useRef(null);
 	const [active, setActive] = useState(false);
 	const [activeChildWidth, setActiveChildWidth] = useState(0);
 	const translateValue = useMemo(() => getTranslateValue(width, activeChildWidth, offset), [
@@ -94,30 +93,6 @@ export default function SidePane({
 
 	useEffect(() => {
 		const { current } = ref;
-		const handleEscape = ({ code, key, keyCode }) => {
-			const keyValue = code || key || keyCode;
-			const isEscape = ["Escape", "Esc", 27].some((value) => value === keyValue);
-			if (isEscape && typeof onClose === "function") {
-				onClose();
-			}
-		};
-		if (open) {
-			const { activeElement } = document;
-			previousActiveElementRef.current = activeElement;
-			activeElement.blur();
-			current?.addEventListener("keydown", handleEscape);
-			getAppNode(appNodeId)?.setAttribute("aria-hidden", "true");
-		} else {
-			getAppNode(appNodeId)?.setAttribute("aria-hidden", "false");
-			previousActiveElementRef.current?.focus();
-		}
-		return () => {
-			current?.removeEventListener("keydown", handleEscape);
-		};
-	}, [open, appNodeId, onClose]);
-
-	useEffect(() => {
-		const { current } = ref;
 		const isActive = open || active;
 		if (isActive) {
 			disableBodyScroll(current);
@@ -128,12 +103,23 @@ export default function SidePane({
 
 	useEffect(() => {
 		const isActive = open || active;
+		if (onActive || !isActive) {
+			return;
+		}
+		getAppNode(appNodeId)?.setAttribute("aria-hidden", (!!open).toString());
+	}, [open, active, appNodeId, onActive]);
+
+	useEffect(() => {
+		const isActive = open || active;
 		if (isActive && typeof onActive === "function") {
 			onActive(open ? translateValue : 0);
 		}
 	}, [open, active, translateValue, onActive]);
 
-	const handleActive = useCallback((childWidth) => setActiveChildWidth(childWidth), []);
+	const handleActive = useCallback((childWidth) => {
+		setActiveChildWidth(childWidth);
+		ref.current?.setAttribute("aria-hidden", (!!childWidth).toString());
+	}, []);
 	const handleEnter = useCallback(() => setActive(true), []);
 	const handleExited = useCallback(() => setActive(false), []);
 
