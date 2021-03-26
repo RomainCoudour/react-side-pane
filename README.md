@@ -51,7 +51,8 @@ The pane only appears from the left.. it is really a react-left-side-pane at the
 ```javascript
 <SidePane open={open} width={50} onClose={handleClose}>
 	{
-		({ onActive }) => <SomeComponentWithASidePane onActive={onActive} /> // Assuming SomeComponent calls a SidePane
+		// Assuming SomeComponent calls a SidePane
+		({ onActive }) => <SomeComponentWithASidePane onActive={onActive} />
 	}
 </SidePane>
 ```
@@ -60,7 +61,8 @@ or
 
 ```javascript
 // SomeComponent.js
-export default function SomeComponent({ someComponentProps, onActive }) { // callback received from SidePane
+export default function SomeComponent({ someComponentProps, onActive }) {
+  // onActive --> callback received from SidePane
   ... // Handle its SidePane open/close state
   return (
     <>
@@ -80,17 +82,34 @@ export default function SomeComponent({ someComponentProps, onActive }) { // cal
 
 ## Props
 
-| Prop                 | Description                                                              |  Default   |
-| -------------------- | ------------------------------------------------------------------------ | :--------: |
-| open                 | Whether or not the pane is open                                          |   false    |
-| children             | Function or component inside the pane                                    | (required) |
-| onClose              | Callback called when pane is closing (backdrop click)                    | (required) |
-| onActive             | Callback between SidePane to translateX when several SidePane are opened |    null    |
-| duration             | Duration of the transition onExit (react-transition-group)               |  250 (ms)  |
-| disableBackdrop      | Hide the backdrop (just its color)                                       |   false    |
-| disableBackdropClick | Disable the onClose trigger when clicking on the backdrop                |   false    |
-| offset               | Space (width in %) between parent and child when both are open           |   10 (%)   |
-| width                | Width of the pane in percentage. Max: 100; Rest: backdrop                |   0 (%)    |
+| Prop                 | Description                                                          |     Default      |
+| -------------------- | -------------------------------------------------------------------- | :--------------: |
+| appNodeId            | DOM node id that contains the application (for aria-hidden)          |      "root"      |
+| aria-describedby     | aria-describedby                                                     |        ""        |
+| aria-label           | aria-label                                                           |   "side pane"    |
+| aria-labelledby      | aria-labelledby                                                      |        ""        |
+| backdropClassName    | Classname to pass to the backdrop                                    |        ""        |
+| backdropStyle        | Style object to pass to the backdrop                                 |        {}        |
+| `children`           | One React element or a function that can hold the onActive callback  |    (required)    |
+| className            | Classname to pass to the pane                                        |        ""        |
+| disableBackdropClick | Prevents click on backdrop to trigger onClose                        |      false       |
+| disableEscapeKeyDown | Prevents Escape key down to trigger onClose                          |      false       |
+| disableRestoreFocus  | Prevents restoring focus on previous active element after closing    |      false       |
+| duration             | Animation dur. (ms). Aniamtions are diabled when reduce-motion is on |     250 (ms)     |
+| hideBackdrop         | Makes the backdrop transparent                                       |      false       |
+| initialFocus         | You can specify an element to receive initial focus. (see Notes)     |       null       |
+| offset               | Space (width in %) between parent and child when both are open       |      10 (%)      |
+| onActive             | Whether to display the pane                                          |       null       |
+| `onClose`            | Style object to pass to the pane                                     |    (required)    |
+| `open`               | Width of the pane in percentage. Max: 100.                           | false (required) |
+| style                | Callback from child to parent to pass on the child width on open     |        {}        |
+| width                | Callback triggered on Escape or click on backdrop                    |      0 (%)       |
+
+### Notes
+
+Recommended: `disableEscapeKeyDown` and `disableRestoreFocus` should not be true as there are part of a11y specs.
+
+`initialFocus`: You can specify an element to receive initial focus. Can be a DOM node, or a selector string (which will be passed to document.querySelector() to find the DOM node), or a function that returns a DOM node. [focus-trap](https://github.com/focus-trap/focus-trap#usage)
 
 ## Credit
 

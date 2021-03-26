@@ -26,35 +26,44 @@ function getTransition(duration) {
 	};
 }
 
-function getAppNode(appNodeId) {
-	return document.getElementById(appNodeId);
-}
-
 /**
  * Animated left-to-right side pane with a backdrop.
  *
- * @param {boolean} open Whether or not the pane is open
- * @param children One React element or a function that can hold the onActive callback
- * @param {boolean} disableBackdrop Makes the backdrop transparent
- * @param {boolean} disableBackdropClick Does not close the pane when user clicks on the backdrop
- * @param {number} duration Animation dur. (ms). Aniamtions are diabled when reduce-motion is active
- * @param {number} offset Space (width in %) between parent and child when both are open
- * @param {number} width Width of the pane in percentage. Max: 100; Rest: backdrop
- * @callback onClose
- * @callback onActive Callback from child to parent to pass on the child width on open
+ * @param {string} appNodeId - DOM node id that contains the application (for aria-hidden)
+ * @param {string} aria-describedby
+ * @param {string} aria-label
+ * @param {string} aria-labelledby
+ * @param {string} backdropClassName - Classname to pass to the backdrop
+ * @param {object} backdropStyle - Style object to pass to the backdrop
+ * @param children - One React element or a function that can hold the onActive callback
+ * @param {string} className - Classname to pass to the pane
+ * @param {boolean} disableBackdropClick - Prevents click on backdrop to trigger onClose
+ * @param {boolean} disableEscapeKeyDown - Prevents Escape key down to trigger onClose.
+ * Recommended: Should not be disabled as it is part of a11y specs
+ * @param {boolean} disableRestoreFocus - Prevents restoring focus on previous active element
+ * after pane is closed. Recommended: Should not be disabled as it is part of a11y specs
+ * @param {number} duration - Animation dur. (ms). Aniamtions are diabled when reduce-motion is on
+ * @param {boolean} hideBackdrop - Makes the backdrop transparent
+ * @param {HTMLElement|string|function} initialFocus - Element to focus after pane is opened
+ * @param {number} offset - Space (width in %) between parent and child when both are open
+ * @param {boolean} open - Whether to display the pane
+ * @param {object} style - Style object to pass to the pane
+ * @param {number} width - Width of the pane in percentage. Max: 100.
+ * @callback onActive - Callback from child to parent to pass on the child width on open
+ * @callback onClose - Callback triggered on Escape or click on backdrop
  */
 export default function SidePane({
 	appNodeId = "root",
-	"aria-describedby": ariaDescribedBy,
+	"aria-describedby": ariaDescribedBy = "",
 	"aria-label": ariaLabel = "side pane",
-	"aria-labelledby": ariaLabelledby,
+	"aria-labelledby": ariaLabelledby = "",
 	backdropClassName = "",
 	backdropStyle = {},
 	children,
 	className = "",
 	disableBackdropClick = false,
-	disableEscapeKeyDown = false, // Shouldn't be disabled as it's part of a11y specs
-	disableRestoreFocus = false, // Shouldn't be disabled as it's part of a11y specs
+	disableEscapeKeyDown = false,
+	disableRestoreFocus = false,
 	duration = 250,
 	hideBackdrop = false,
 	initialFocus = null,
@@ -106,7 +115,7 @@ export default function SidePane({
 		if (onActive || !isActive) {
 			return;
 		}
-		getAppNode(appNodeId)?.setAttribute("aria-hidden", (!!open).toString());
+		document.getElementById(appNodeId)?.setAttribute("aria-hidden", (!!open).toString());
 	}, [open, active, appNodeId, onActive]);
 
 	useEffect(() => {
@@ -175,13 +184,26 @@ export default function SidePane({
 	);
 }
 SidePane.propTypes = {
-	open: PropTypes.bool,
+	appNodeId: PropTypes.string,
+	"aria-describedby": PropTypes.string,
+	"aria-label": PropTypes.string,
+	"aria-labelledby": PropTypes.string,
+	backdropClassName: PropTypes.string,
+	// eslint-disable-next-line react/forbid-prop-types
+	backdropStyle: PropTypes.object,
 	children: PropTypes.oneOfType([PropTypes.func, PropTypes.element]).isRequired,
-	onClose: PropTypes.func.isRequired,
-	onActive: PropTypes.func,
-	duration: PropTypes.number,
-	disableBackdrop: PropTypes.bool,
+	className: PropTypes.string,
 	disableBackdropClick: PropTypes.bool,
+	disableEscapeKeyDown: PropTypes.bool,
+	disableRestoreFocus: PropTypes.bool,
+	duration: PropTypes.number,
+	hideBackdrop: PropTypes.bool,
+	initialFocus: PropTypes.oneOfType([PropTypes.func, PropTypes.element, PropTypes.string]),
 	offset: PropTypes.number,
+	onActive: PropTypes.func,
+	onClose: PropTypes.func.isRequired,
+	open: PropTypes.bool.isRequired,
+	// eslint-disable-next-line react/forbid-prop-types
+	style: PropTypes.object,
 	width: PropTypes.number,
 };
