@@ -93,22 +93,17 @@ export default function SomeComponent({ someComponentProps, onActive }) {
 | `children`           | One React element or a function that can hold the onActive callback  |    (required)    |
 | className            | Classname to pass to the pane                                        |        ""        |
 | disableBackdropClick | Prevents click on backdrop to trigger onClose                        |      false       |
-| disableEscapeKeyDown | Prevents Escape key down to trigger onClose                          |      false       |
-| disableRestoreFocus  | Prevents restoring focus on previous active element after closing    |      false       |
+| disableEscapeKeyDown | Prevents Escape key down to trigger onClose. *Recommended*: Should not be true as it is part of a11y specs.                       |      false       |
+| disableRestoreFocus  | Prevents restoring focus on previous active element after closing. *Recommended*: Should not be true as it is part of a11y specs.   |      false       |
 | duration             | Animation dur. (ms). Aniamtions are diabled when reduce-motion is on |     250 (ms)     |
 | hideBackdrop         | Makes the backdrop transparent                                       |      false       |
-| initialFocus         | You can specify an element to receive initial focus. (see Notes)     |       null       |
+| initialFocus         | You can specify an element to receive initial focus. Can be a DOM node, or a selector string (which will be passed to document.querySelector() to find the DOM node), or a function that returns a DOM node. ([focus-trap](https://github.com/focus-trap/focus-trap#usage))    |       null       |
 | offset               | Space (width in %) between parent and child when both are open       |      10 (%)      |
 | onActive             | Callback from child to parent to pass on the child width on open     |       null       |
 | `onClose`            | Callback triggered on Escape or click on backdrop                    |    (required)    |
 | `open`               | Whether to display the pane                                          | false (required) |
 | style                | Style object to pass to the pane                                     |        {}        |
 | width                | Width of the pane in percentage. Max: 100.                           |      0 (%)       |
-
-### Notes
-
-_Recommended_: `disableEscapeKeyDown` and `disableRestoreFocus` should not be true as there are part of a11y specs.
-`initialFocus`: You can specify an element to receive initial focus. Can be a DOM node, or a selector string (which will be passed to document.querySelector() to find the DOM node), or a function that returns a DOM node. ([focus-trap](https://github.com/focus-trap/focus-trap#usage))
 
 ## Credit
 
