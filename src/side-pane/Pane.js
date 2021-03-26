@@ -46,9 +46,9 @@ export default function Pane({
 		>
 			{(state) => (
 				<div
-					aria-describedby={ariaDescribedBy}
-					aria-label={ariaLabel}
-					aria-labelledby={ariaLabelledby}
+					aria-describedby={ariaDescribedBy || null}
+					aria-label={ariaLabel || "side pane"}
+					aria-labelledby={ariaLabelledby || null}
 					aria-modal="true"
 					className={styles.sidePane__pane}
 					role="dialog"
