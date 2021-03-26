@@ -1,6 +1,5 @@
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import replace from "@rollup/plugin-replace";
 import babel from "@rollup/plugin-babel";
 import autoprefixer from "autoprefixer";
 import postcss from "rollup-plugin-postcss";
@@ -45,7 +44,6 @@ const plugins = [
 		autoModules: true,
 		extract: false,
 	}),
-	replace({ "process.env.NODE_ENV": JSON.stringify(env), preventAssignment: true }),
 	filesize(),
 ];
 
