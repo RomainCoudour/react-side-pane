@@ -1,25 +1,25 @@
 {
   "react-side-pane.cjs.js": {
-    "bundled": 77432,
-    "minified": 36691,
-    "gzipped": 10832
+    "bundled": 78076,
+    "minified": 36681,
+    "gzipped": 10831
   },
   "react-side-pane.umd.js": {
-    "bundled": 81647,
-    "minified": 31174,
-    "gzipped": 9916
+    "bundled": 82293,
+    "minified": 31185,
+    "gzipped": 9926
   },
   "react-side-pane.es.js": {
-    "bundled": 76716,
-    "minified": 36097,
-    "gzipped": 10778,
+    "bundled": 77360,
+    "minified": 36087,
+    "gzipped": 10779,
     "treeshaked": {
       "rollup": {
         "code": 22708,
         "import_statements": 46
       },
       "webpack": {
-        "code": 31757
+        "code": 31768
       }
     }
   }
