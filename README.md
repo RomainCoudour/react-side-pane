@@ -50,10 +50,8 @@ The pane only appears from the left.. it is really a react-left-side-pane at the
 
 ```javascript
 <SidePane open={open} width={50} onClose={handleClose}>
-	{
-		// Assuming SomeComponent calls a SidePane
-		({ onActive }) => <SomeComponentWithASidePane onActive={onActive} />
-	}
+	{/* Assuming SomeComponent calls a SidePane */}
+	{({ onActive }) => <SomeComponentWithASidePane onActive={onActive} />}
 </SidePane>
 ```
 
@@ -104,7 +102,7 @@ export default function SomeComponent({ someComponentProps, onActive }) {
 | `open`               | Whether to display the pane                                          | false (required) |
 | style                | Style object to pass to the pane                                     |        {}        |
 | width                | Width of the pane in percentage. Max: 100.                           |      0 (%)       |
-
+ 
 ## Credit
 
 This project did not appear by magic. It was started at [Aitenders](https://www.aitenders.com/) as a more modern and nicer way to display data and additionnal user actions.
