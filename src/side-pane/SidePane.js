@@ -4,27 +4,9 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 import Pane from "./Pane";
+import Backdrop from "./Backdrop";
+import { getTranslateValue } from "./utils";
 import styles from "./SidePane.css";
-
-function getTranslateValue(parentWidth, childWidth, offset) {
-	let value = 0;
-	if (!childWidth) {
-		value = parentWidth;
-	} else if (childWidth >= parentWidth || parentWidth - childWidth < offset) {
-		value = childWidth + offset;
-	} else {
-		value = parentWidth;
-	}
-	return Math.min(value, 100);
-}
-
-function getTransition(duration) {
-	return {
-		WebkitTransition: `opacity ${duration}ms ease-out`,
-		OTransition: `opacity ${duration}ms ease-out`,
-		transition: `opacity ${duration}ms ease-out`,
-	};
-}
 
 /**
  * Animated left-to-right side pane with a backdrop.
@@ -141,30 +123,23 @@ export default function SidePane({
 				returnFocusOnDeactivate: !disableRestoreFocus,
 			}}
 		>
-			<div
-				ref={ref}
-				className={styles.sidePane}
-				data-disable-backdrop={hideBackdrop}
-				open={open || active}
-				tabIndex={-1}
-			>
-				<div className={styles.sidePane__wrapper}>
-					<div
-						aria-label="backdrop"
-						className={`${styles.sidePane__backdrop} ${backdropClassName || ""}`}
-						role="presentation"
-						style={{ ...getTransition(duration), cursor: "pointer", ...backdropStyle }}
-						onClick={(!disableBackdropClick && onClose) || null}
-					/>
+			<div ref={ref} className={styles.sidePane} open={open || active} tabIndex={-1}>
+				<Backdrop
+					className={backdropClassName || ""}
+					disableBackdropClick={disableBackdropClick}
+					duration={duration}
+					hideBackdrop={hideBackdrop}
+					style={backdropStyle || {}}
+					onClose={onClose}
+				>
 					<Pane
 						ariaDescribedBy={ariaDescribedBy}
 						ariaLabel={ariaLabel}
 						ariaLabelledby={ariaLabelledby}
-						className={className}
+						className={className || ""}
 						duration={duration}
 						open={open}
-						style={style}
-						tabIndex={0}
+						style={style || {}}
 						translateValue={translateValue}
 						width={width}
 						onEnter={handleEnter}
@@ -177,7 +152,7 @@ export default function SidePane({
 										onActive: handleActive,
 								  }))}
 					</Pane>
-				</div>
+				</Backdrop>
 			</div>
 		</FocusTrap>,
 		document.body

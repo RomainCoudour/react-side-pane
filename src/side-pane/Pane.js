@@ -1,14 +1,7 @@
 import React from "react";
 import { Transition } from "react-transition-group";
+import { getTransformTransition } from "./utils";
 import styles from "./SidePane.css";
-
-function getTransition(duration) {
-	return {
-		WebkitTransition: `transform ${duration}ms ease-out`,
-		OTransition: `transform ${duration}ms ease-out`,
-		transition: `transform ${duration}ms ease-out`,
-	};
-}
 
 const defaultTransitionStyle = {
 	transform: "translateX(100%)",
@@ -23,11 +16,13 @@ export default function Pane({
 	ariaLabel,
 	ariaLabelledby,
 	ariaDescribedBy,
-	duration,
 	children,
+	className,
+	duration,
 	onEnter,
 	onExited,
 	open,
+	style,
 	translateValue,
 	width,
 }) {
@@ -50,12 +45,13 @@ export default function Pane({
 					aria-label={ariaLabel || "side pane"}
 					aria-labelledby={ariaLabelledby || null}
 					aria-modal="true"
-					className={styles.sidePane__pane}
+					className={`${styles.sidePane__pane} ${className}`}
 					role="dialog"
 					style={{
 						...defaultTransitionStyle,
 						...dynamicTransitionStyles[state],
-						...getTransition(duration),
+						...getTransformTransition(duration),
+						...style,
 						width: `${Math.min(width, 100)}%`,
 					}}
 				>
