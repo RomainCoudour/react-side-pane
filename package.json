@@ -44,6 +44,7 @@
 		"react-transition-group": "^4.4.1"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.13.13",
 		"@babel/eslint-parser": "^7.13.10",
 		"@babel/helpers": "^7.13.10",
 		"@babel/plugin-proposal-object-rest-spread": "^7.13.8",
