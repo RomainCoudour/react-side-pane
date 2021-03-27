@@ -4,6 +4,7 @@ import babel from "@rollup/plugin-babel";
 import autoprefixer from "autoprefixer";
 import postcss from "rollup-plugin-postcss";
 import filesize from "rollup-plugin-filesize";
+import banner2 from "rollup-plugin-banner2";
 import { terser } from "rollup-plugin-terser";
 import pkg from "./package.json";
 
@@ -44,13 +45,30 @@ const plugins = [
 		autoModules: true,
 		extract: false,
 	}),
+];
+const prodPlugins = [terser()];
+const endPlugins = [
+	banner2(
+		(chunk) => `
+/** @license React SidePane v${pkg.version}
+ * ${chunk.fileName}
+ *
+ * Copyright (c) Romain Coudour
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+`,
+		{ sourcemap: false }
+	),
 	filesize(),
 ];
 
+// Process
 if (env === "production") {
-	plugins.push(terser());
+	plugins.push(...prodPlugins);
 }
-
+plugins.push(...endPlugins);
 export default [
 	{
 		input: "src/index.js",
@@ -71,7 +89,6 @@ export default [
 				globals,
 				file: pkg.browser,
 				format: "umd",
-				sourcemap: true,
 				exports: "named",
 			},
 		],
