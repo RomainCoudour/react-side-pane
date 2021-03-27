@@ -5,7 +5,6 @@ import autoprefixer from "autoprefixer";
 import postcss from "rollup-plugin-postcss";
 import filesize from "rollup-plugin-filesize";
 import banner2 from "rollup-plugin-banner2";
-import { terser } from "rollup-plugin-terser";
 import pkg from "./package.json";
 
 const makeExternalPredicate = (externalArr) => {
@@ -15,20 +14,8 @@ const makeExternalPredicate = (externalArr) => {
 	return (id) => new RegExp(`^(${externalArr.join("|")})($|/)`).test(id);
 };
 
-const name = "ReactSidePane";
-const env = process.env.NODE_ENV || "development";
 const deps = [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})];
 const external = makeExternalPredicate(deps);
-const globals = {
-	react: "React",
-	"react-dom": "ReactDOM",
-	"focus-trap-react": "FocusTrap",
-	"body-scroll-lock ": "bodyScrollLock",
-	"prop-types ": "PropTypes",
-	"react-transition-group ": "reactTransitionGroup",
-	"@babel/runtime/helpers/defineProperty": "_defineProperty$1",
-	"@babel/runtime/helpers/slicedToArray": "_slicedToArray",
-};
 const plugins = [
 	resolve(),
 	babel({
@@ -45,9 +32,6 @@ const plugins = [
 		autoModules: true,
 		extract: false,
 	}),
-];
-const prodPlugins = [terser()];
-const endPlugins = [
 	banner2(
 		(chunk) => `
 /** @license React SidePane v${pkg.version}
@@ -63,12 +47,6 @@ const endPlugins = [
 	),
 	filesize(),
 ];
-
-// Process
-if (env === "production") {
-	plugins.push(...prodPlugins);
-}
-plugins.push(...endPlugins);
 export default [
 	{
 		input: "src/index.js",
@@ -82,13 +60,6 @@ export default [
 			{
 				file: pkg.module,
 				format: "es",
-				exports: "named",
-			},
-			{
-				name,
-				globals,
-				file: pkg.browser,
-				format: "umd",
 				exports: "named",
 			},
 		],
