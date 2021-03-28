@@ -38,7 +38,7 @@ import { SidePane } from "react-side-pane";
 
 react-side-pane is using [React Portals](https://reactjs.org/docs/portals.html) under the hood and [React transition group](https://www.npmjs.com/package/react-transition-group) to handle the transitions. The SidePane should take all the screen. It can accept only one child (either a function or an element/component/dom node).
 
-The pane only appears from the left.. it is really a react-left-side-pane at the moment. Also, react-side-pane offers only a few props to customize the pane so if you need any additionnal tweaks, feel free to open an issue or to contribute.
+The pane only appears from the right.. it is really a react-right-side-pane at the moment. Also, react-side-pane offers only a few props to customize the pane so if you need any additionnal tweaks, feel free to open an issue or to contribute.
 
 ### One pane usage
 
