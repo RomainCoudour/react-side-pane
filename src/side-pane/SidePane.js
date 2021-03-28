@@ -118,6 +118,7 @@ export default function SidePane({
 		<FocusTrap
 			active={open || active}
 			focusTrapOptions={{
+				escapeDeactivates: !disableEscapeKeyDown,
 				fallbackFocus: () => ref.current,
 				initialFocus,
 				returnFocusOnDeactivate: !disableRestoreFocus,
