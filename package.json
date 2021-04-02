@@ -20,8 +20,10 @@
 	"bugs": "https://github.com/RomainCoudour/react-side-pane/issues",
 	"main": "dist/react-side-pane.cjs.js",
 	"module": "dist/react-side-pane.es.js",
+	"types": "side-pane.d.ts",
 	"files": [
-		"dist"
+		"dist",
+		"side-pane.d.ts"
 	],
 	"sideEffects": false,
 	"engines": {
