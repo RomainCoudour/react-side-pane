@@ -104,7 +104,42 @@ export default function SomeComponent({ someComponentProps, onActive }) {
 | `open`               | Whether to display the pane                                          | false (required) |
 | style                | Style object to pass to the pane                                     |        {}        |
 | width                | Width of the pane in percentage. Max: 100.                           |      0 (%)       |
- 
+
+## Known issues
+
+### Focus fighting
+> **Notes**: Noticed while using MUI dialog with SidePane
+
+MUI Dialog and SidePane are rendering by default in document.body using Portals. But using both at the same time triggered `Maximum call stack size exceeded. at tryFocus` from one of our old dependency. We removed said dependency to use `react-focus-lock` instead with resolved the issue but popped a new one: 
+
+```
+FocusLock: focus-fighting detected. Only one focus management system could be active.
+```
+
+To fix this, we are using `shards` and `whiteList` props from `react-focus-lock`. If you stumble upon this one in your console, consider the fix below and if it does not work, open an issue.
+
+```html
+<body>
+  <div id="root"></div> <!-- your react app container -->
+  <div id="container"></div> <!-- the SidePane container (instead of document.body) -->
+  <!-- other stuff ... -->
+  <!-- other Modals/Dialogs etc... -->
+</body>
+```
+```javascript
+function App() {
+  const [open, dispatchOpen] = useReducer((prev) => !prev, false);
+  return (
+    <div>
+      <button onClick={dispatchOpen}>Open</button>
+      <SidePane open={open} onClose={dispatchOpen} width={50} containerId="container">
+        <Component />
+      </SidePane>
+    </div>
+	);
+}
+```
+
 ## Credit
 
 This project did not appear by magic. It was started at [Aitenders](https://www.aitenders.com/) as a more modern and nicer way to display data and additionnal user actions.
