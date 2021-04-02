@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback, useRef } from "react";
-import FocusTrap from "focus-trap-react";
+import FocusLock from "react-focus-lock";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
@@ -19,6 +19,8 @@ import styles from "./SidePane.css";
  * @param {object} backdropStyle - Style object to pass to the backdrop
  * @param children - One React element or a function that can hold the onActive callback
  * @param {string} className - Classname to pass to the pane
+ * @param {string} containerId - DOM node id where the side panes will portal to.
+ * Will be passed to document.getElementById. Default: document.body.
  * @param {boolean} disableBackdropClick - Prevents click on backdrop to trigger onClose
  * @param {boolean} disableEscapeKeyDown - Prevents Escape key down to trigger onClose.
  * Recommended: Should not be disabled as it is part of a11y specs
@@ -26,7 +28,6 @@ import styles from "./SidePane.css";
  * after pane is closed. Recommended: Should not be disabled as it is part of a11y specs
  * @param {number} duration - Animation dur. (ms). Aniamtions are diabled when reduce-motion is on
  * @param {boolean} hideBackdrop - Makes the backdrop transparent
- * @param {HTMLElement|string|function} initialFocus - Element to focus after pane is opened
  * @param {number} offset - Space (width in %) between parent and child when both are open
  * @param {boolean} open - Whether to display the pane
  * @param {object} style - Style object to pass to the pane
@@ -43,12 +44,12 @@ export default function SidePane({
 	backdropStyle = {},
 	children,
 	className = "",
+	containerId = "",
 	disableBackdropClick = false,
 	disableEscapeKeyDown = false,
 	disableRestoreFocus = false,
 	duration = 250,
 	hideBackdrop = false,
-	initialFocus = null,
 	offset = 10,
 	onActive = null,
 	onClose,
@@ -59,6 +60,10 @@ export default function SidePane({
 	const ref = useRef(null);
 	const [active, setActive] = useState(false);
 	const [activeChildWidth, setActiveChildWidth] = useState(0);
+	const DOMContainer = useMemo(
+		() => (containerId ? document.getElementById(containerId) : document.body),
+		[containerId]
+	);
 	const translateValue = useMemo(() => getTranslateValue(width, activeChildWidth, offset), [
 		width,
 		activeChildWidth,
@@ -114,17 +119,16 @@ export default function SidePane({
 	const handleEnter = useCallback(() => setActive(true), []);
 	const handleExited = useCallback(() => setActive(false), []);
 
+	const isActive = open || active;
 	return createPortal(
-		<FocusTrap
-			active={open || active}
-			focusTrapOptions={{
-				escapeDeactivates: !disableEscapeKeyDown,
-				fallbackFocus: () => ref.current,
-				initialFocus,
-				returnFocusOnDeactivate: !disableRestoreFocus,
-			}}
+		<FocusLock
+			autoFocus
+			disabled={!isActive}
+			returnFocus={!disableRestoreFocus}
+			shards={[ref.current]}
+			whiteList={(node) => DOMContainer.contains(node)}
 		>
-			<div ref={ref} className={styles.sidePane} open={open || active} tabIndex={-1}>
+			<div ref={ref} className={styles.sidePane} open={isActive} tabIndex={-1}>
 				<Backdrop
 					className={backdropClassName || ""}
 					disableBackdropClick={disableBackdropClick}
@@ -155,8 +159,8 @@ export default function SidePane({
 					</Pane>
 				</Backdrop>
 			</div>
-		</FocusTrap>,
-		document.body
+		</FocusLock>,
+		DOMContainer
 	);
 }
 SidePane.propTypes = {
@@ -169,12 +173,12 @@ SidePane.propTypes = {
 	backdropStyle: PropTypes.object,
 	children: PropTypes.oneOfType([PropTypes.func, PropTypes.element]).isRequired,
 	className: PropTypes.string,
+	containerId: PropTypes.string,
 	disableBackdropClick: PropTypes.bool,
 	disableEscapeKeyDown: PropTypes.bool,
 	disableRestoreFocus: PropTypes.bool,
 	duration: PropTypes.number,
 	hideBackdrop: PropTypes.bool,
-	initialFocus: PropTypes.oneOfType([PropTypes.func, PropTypes.element, PropTypes.string]),
 	offset: PropTypes.number,
 	onActive: PropTypes.func,
 	onClose: PropTypes.func.isRequired,
