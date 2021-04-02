@@ -110,13 +110,13 @@ export default function SomeComponent({ someComponentProps, onActive }) {
 ### Focus fighting
 > **Notes**: Noticed while using MUI dialog with SidePane
 
-MUI Dialog and SidePane are rendering by default in document.body using Portals. But using both at the same time triggered `Maximum call stack size exceeded. at tryFocus` from one of our old dependency. We removed said dependency to use `react-focus-lock` instead with resolved the issue but popped a new one: 
+MUI Dialog and SidePane are rendering by default in document.body using Portals. But using both at the same time triggered `Maximum call stack size exceeded. at tryFocus` from one of our old dependency. We removed said dependency to use [react-focus-lock](https://github.com/theKashey/react-focus-lock) instead which resolved the issue but popped a [new one](https://github.com/theKashey/focus-lock/#focus-fighting): 
 
 ```
 FocusLock: focus-fighting detected. Only one focus management system could be active.
 ```
 
-To fix this, we are using `shards` and `whiteList` props from `react-focus-lock`. If you stumble upon this one in your console, consider the fix below and if it does not work, open an issue.
+To fix this, we are using `shards` and `whiteList` props from [react-focus-lock](https://github.com/theKashey/react-focus-lock). If you stumble upon this one in your console, consider the fix below and if it does not work, open an issue.
 
 ```html
 <body>
