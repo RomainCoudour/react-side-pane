@@ -92,12 +92,12 @@ export default function SomeComponent({ someComponentProps, onActive }) {
 | backdropStyle        | Style object to pass to the backdrop                                 |        {}        |
 | `children`           | One React element or a function that can hold the onActive callback  |    (required)    |
 | className            | Classname to pass to the pane                                        |        ""        |
+| containerId          | You can specify an element ID to receive the side panes (portal). containerId will be passed to document.getElementById. If not filled, the side panes will portal to document.body. See usage below    |       ""       |
 | disableBackdropClick | Prevents click on backdrop to trigger onClose                        |      false       |
 | disableEscapeKeyDown | Prevents Escape key down to trigger onClose. *Recommended*: Should not be true as it is part of a11y specs.                       |      false       |
 | disableRestoreFocus  | Prevents restoring focus on previous active element after closing. *Recommended*: Should not be true as it is part of a11y specs.   |      false       |
 | duration             | Animation dur. (ms). Aniamtions are diabled when reduce-motion is on |     250 (ms)     |
 | hideBackdrop         | Makes the backdrop transparent                                       |      false       |
-| initialFocus         | You can specify an element to receive initial focus. Can be a DOM node, or a selector string (which will be passed to document.querySelector() to find the DOM node), or a function that returns a DOM node. ([focus-trap](https://github.com/focus-trap/focus-trap#usage))    |       null       |
 | offset               | Space (width in %) between parent and child when both are open       |      10 (%)      |
 | onActive             | Callback from child to parent to pass on the child width on open     |       null       |
 | `onClose`            | Callback triggered on Escape or click on backdrop                    |    (required)    |
