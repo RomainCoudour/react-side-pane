@@ -40,6 +40,7 @@ export default function SidePane({
 	"aria-describedby": ariaDescribedBy = "",
 	"aria-label": ariaLabel = "side pane",
 	"aria-labelledby": ariaLabelledby = "",
+	autoWidth = false,
 	backdropClassName = "",
 	backdropStyle = {},
 	children,
@@ -58,17 +59,29 @@ export default function SidePane({
 	width = 0,
 }) {
 	const ref = useRef(null);
+	const paneRef = useRef(null);
 	const [active, setActive] = useState(false);
 	const [activeChildWidth, setActiveChildWidth] = useState(0);
 	const DOMContainer = useMemo(
 		() => (containerId ? document.getElementById(containerId) : document.body),
 		[containerId]
 	);
-	const translateValue = useMemo(() => getTranslateValue(width, activeChildWidth, offset), [
-		width,
-		activeChildWidth,
-		offset,
-	]);
+	const [translateValue, setTranslateValue] = useState(0);
+
+	useEffect(() => {
+		if (!open && !active) {
+			setTranslateValue(0);
+		}
+		if (autoWidth) {
+			const w = paneRef.current ? paneRef.current.getBoundingClientRect().width : width;
+			const wP = ((w || 0) / document.body.clientWidth) * 100;
+			const wProunded = Math.round(wP);
+			const v = getTranslateValue(wProunded, activeChildWidth, offset);
+			setTranslateValue(v);
+		} else {
+			setTranslateValue(getTranslateValue(width, activeChildWidth, offset));
+		}
+	}, [open, active, width, autoWidth, activeChildWidth, offset]);
 
 	useEffect(() => {
 		const { current } = ref;
@@ -141,6 +154,7 @@ export default function SidePane({
 						ariaDescribedBy={ariaDescribedBy}
 						ariaLabel={ariaLabel}
 						ariaLabelledby={ariaLabelledby}
+						autoWidth={autoWidth}
 						className={className || ""}
 						duration={duration}
 						open={open}
@@ -155,6 +169,7 @@ export default function SidePane({
 								? children({ onActive: handleActive })
 								: React.cloneElement(React.Children.only(children), {
 										onActive: handleActive,
+										contentRef: paneRef,
 								  }))}
 					</Pane>
 				</Backdrop>

@@ -18,6 +18,7 @@ const Pane = React.forwardRef(
 			ariaLabel,
 			ariaLabelledby,
 			ariaDescribedBy,
+			autoWidth,
 			children,
 			className,
 			duration,
@@ -56,7 +57,7 @@ const Pane = React.forwardRef(
 							...dynamicTransitionStyles[state],
 							...getTransformTransition(duration),
 							...style,
-							width: `${Math.min(width, 100)}%`,
+							width: autoWidth ? "auto" : `${Math.min(width, 100)}%`,
 						}}
 					>
 						{children}
