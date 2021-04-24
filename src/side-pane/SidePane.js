@@ -80,13 +80,13 @@ export default function SidePane({
 				onClose();
 			}
 		};
-		if (!disableEscapeKeyDown && open) {
+		if (!disableEscapeKeyDown && active) {
 			current?.addEventListener("keydown", handleEscape);
 		}
 		return () => {
 			current?.removeEventListener("keydown", handleEscape);
 		};
-	}, [open, disableEscapeKeyDown, onClose]);
+	}, [active, disableEscapeKeyDown, onClose]);
 
 	useEffect(() => {
 		const { current } = ref;
@@ -99,12 +99,11 @@ export default function SidePane({
 	}, [open, active]);
 
 	useEffect(() => {
-		const isActive = open || active;
-		if (onActive || !isActive) {
+		if (onActive || !active) {
 			return;
 		}
-		document.getElementById(appNodeId)?.setAttribute("aria-hidden", (!!open).toString());
-	}, [open, active, appNodeId, onActive]);
+		document.getElementById(appNodeId)?.setAttribute("aria-hidden", (!!active).toString());
+	}, [active, appNodeId, onActive]);
 
 	const updateTranslateValue = useCallback(
 		(newTranslateValue) => {
@@ -124,8 +123,15 @@ export default function SidePane({
 		},
 		[offset, updateTranslateValue]
 	);
-	const handleEnter = useCallback(() => setActive(true), []);
-	const handleEntered = useCallback(() => {
+	const handleEnter = () => {
+		setActive(true);
+		ref.current?.setAttribute("aria-hidden", "true");
+	};
+	const handleExited = () => {
+		setActive(false);
+		ref.current?.setAttribute("aria-hidden", "false");
+	};
+	const handleEntered = () => {
 		if (autoWidth) {
 			const w = contentRef.current ? contentRef.current.getBoundingClientRect().width : 0;
 			const wP = (w / document.body.clientWidth) * 100;
@@ -134,17 +140,12 @@ export default function SidePane({
 			actualWidth.current = width;
 		}
 		updateTranslateValue(getTranslateValue(actualWidth.current, 0, offset));
-		ref.current?.setAttribute("aria-hidden", "true");
-	}, [autoWidth, width, offset, updateTranslateValue]);
-	const handleExiting = useCallback(() => {
+	};
+	const handleExiting = () => {
 		if (typeof onActive === "function") {
 			onActive(0);
 		}
-	}, [onActive]);
-	const handleExited = useCallback(() => {
-		setActive(false);
-		ref.current?.setAttribute("aria-hidden", "false");
-	}, []);
+	};
 
 	const isActive = open || active;
 	return createPortal(
@@ -152,7 +153,7 @@ export default function SidePane({
 			autoFocus
 			disabled={!isActive}
 			returnFocus={!disableRestoreFocus}
-			shards={[ref.current]}
+			shards={[paneRef.current]}
 			whiteList={(node) => DOMContainer.contains(node)}
 		>
 			<div ref={ref} className={styles.sidePane} open={isActive} tabIndex={-1}>
