@@ -58,17 +58,13 @@ export default function SidePane({
 	width = 0,
 }) {
 	const ref = useRef(null);
+	const paneRef = useRef(null);
+	const translateRef = useRef(getTranslateValue(width, 0, offset));
 	const [active, setActive] = useState(false);
-	const [activeChildWidth, setActiveChildWidth] = useState(0);
 	const DOMContainer = useMemo(
 		() => (containerId ? document.getElementById(containerId) : document.body),
 		[containerId]
 	);
-	const translateValue = useMemo(() => getTranslateValue(width, activeChildWidth, offset), [
-		width,
-		activeChildWidth,
-		offset,
-	]);
 
 	useEffect(() => {
 		const { current } = ref;
@@ -108,14 +104,22 @@ export default function SidePane({
 	useEffect(() => {
 		const isActive = open || active;
 		if (isActive && typeof onActive === "function") {
-			onActive(open ? translateValue : 0);
+			onActive(open ? translateRef.current : 0);
 		}
-	}, [open, active, translateValue, onActive]);
+	}, [open, active, onActive]);
 
-	const handleActive = useCallback((childWidth) => {
-		setActiveChildWidth(childWidth);
-		ref.current?.setAttribute("aria-hidden", (!!childWidth).toString());
-	}, []);
+	const handleActive = useCallback(
+		(childTranslateValue) => {
+			const newTranslateValue = getTranslateValue(width, childTranslateValue, offset);
+			translateRef.current = newTranslateValue;
+			paneRef.current.style.transform = `translateX(+100%) translateX(-${newTranslateValue}vw)`;
+			ref.current?.setAttribute("aria-hidden", (!!childTranslateValue).toString());
+			if (typeof onActive === "function") {
+				onActive(newTranslateValue);
+			}
+		},
+		[width, offset, onActive]
+	);
 	const handleEnter = useCallback(() => setActive(true), []);
 	const handleExited = useCallback(() => setActive(false), []);
 
@@ -138,6 +142,7 @@ export default function SidePane({
 					onClose={onClose}
 				>
 					<Pane
+						ref={paneRef}
 						ariaDescribedBy={ariaDescribedBy}
 						ariaLabel={ariaLabel}
 						ariaLabelledby={ariaLabelledby}
@@ -145,7 +150,7 @@ export default function SidePane({
 						duration={duration}
 						open={open}
 						style={style || {}}
-						translateValue={translateValue}
+						translateValue={translateRef.current}
 						width={width}
 						onEnter={handleEnter}
 						onExited={handleExited}
