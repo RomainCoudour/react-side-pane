@@ -60,28 +60,22 @@ export default function SidePane({
 }) {
 	const ref = useRef(null);
 	const paneRef = useRef(null);
+	const translateRef = useRef(getTranslateValue(width, 0, offset));
 	const [active, setActive] = useState(false);
-	const [activeChildWidth, setActiveChildWidth] = useState(0);
 	const DOMContainer = useMemo(
 		() => (containerId ? document.getElementById(containerId) : document.body),
 		[containerId]
 	);
-	const [translateValue, setTranslateValue] = useState(0);
 
 	useEffect(() => {
-		if (!open && !active) {
-			setTranslateValue(0);
-		}
 		if (autoWidth) {
 			const w = paneRef.current ? paneRef.current.getBoundingClientRect().width : width;
 			const wP = ((w || 0) / document.body.clientWidth) * 100;
 			const wProunded = Math.round(wP);
-			const v = getTranslateValue(wProunded, activeChildWidth, offset);
-			setTranslateValue(v);
-		} else {
-			setTranslateValue(getTranslateValue(width, activeChildWidth, offset));
+			const v = getTranslateValue(wProunded, translateRef.current, offset);
+			console.log(v);
 		}
-	}, [open, active, width, autoWidth, activeChildWidth, offset]);
+	}, [open, active, width, autoWidth, offset]);
 
 	useEffect(() => {
 		const { current } = ref;
@@ -121,14 +115,22 @@ export default function SidePane({
 	useEffect(() => {
 		const isActive = open || active;
 		if (isActive && typeof onActive === "function") {
-			onActive(open ? translateValue : 0);
+			onActive(open ? translateRef.current : 0);
 		}
-	}, [open, active, translateValue, onActive]);
+	}, [open, active, onActive]);
 
-	const handleActive = useCallback((childWidth) => {
-		setActiveChildWidth(childWidth);
-		ref.current?.setAttribute("aria-hidden", (!!childWidth).toString());
-	}, []);
+	const handleActive = useCallback(
+		(childTranslateValue) => {
+			const newTranslateValue = getTranslateValue(width, childTranslateValue, offset);
+			translateRef.current = newTranslateValue;
+			paneRef.current.style.transform = `translateX(+100%) translateX(-${newTranslateValue}vw)`;
+			ref.current?.setAttribute("aria-hidden", (!!childTranslateValue).toString());
+			if (typeof onActive === "function") {
+				onActive(newTranslateValue);
+			}
+		},
+		[width, offset, onActive]
+	);
 	const handleEnter = useCallback(() => setActive(true), []);
 	const handleExited = useCallback(() => setActive(false), []);
 
@@ -151,6 +153,7 @@ export default function SidePane({
 					onClose={onClose}
 				>
 					<Pane
+						ref={paneRef}
 						ariaDescribedBy={ariaDescribedBy}
 						ariaLabel={ariaLabel}
 						ariaLabelledby={ariaLabelledby}
@@ -159,7 +162,7 @@ export default function SidePane({
 						duration={duration}
 						open={open}
 						style={style || {}}
-						translateValue={translateValue}
+						translateValue={translateRef.current}
 						width={width}
 						onEnter={handleEnter}
 						onExited={handleExited}

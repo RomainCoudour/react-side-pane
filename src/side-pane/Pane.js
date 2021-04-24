@@ -67,4 +67,5 @@ const Pane = React.forwardRef(
 		);
 	}
 );
+
 export default Pane;
