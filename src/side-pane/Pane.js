@@ -23,7 +23,9 @@ const Pane = React.forwardRef(
 			className,
 			duration,
 			onEnter,
+			onEntered,
 			onExited,
+			onExiting,
 			open,
 			style,
 			translateValue,
@@ -41,7 +43,9 @@ const Pane = React.forwardRef(
 				in={open}
 				timeout={{ appear: 0, enter: 0, exit: duration }}
 				onEnter={onEnter}
+				onEntered={onEntered}
 				onExited={onExited}
+				onExiting={onExiting}
 			>
 				{(state) => (
 					<div

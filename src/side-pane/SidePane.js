@@ -15,6 +15,8 @@ import styles from "./SidePane.css";
  * @param {string} aria-describedby
  * @param {string} aria-label
  * @param {string} aria-labelledby
+ * @param {boolean} autoWidth - Will take the width bounding box's width of the
+ * SidePane's child instead of width
  * @param {string} backdropClassName - Classname to pass to the backdrop
  * @param {object} backdropStyle - Style object to pass to the backdrop
  * @param children - One React element or a function that can hold the onActive callback
@@ -60,22 +62,14 @@ export default function SidePane({
 }) {
 	const ref = useRef(null);
 	const paneRef = useRef(null);
-	const translateRef = useRef(getTranslateValue(width, 0, offset));
+	const contentRef = useRef(null);
+	const actualWidth = useRef(width);
+	const translateRef = useRef(getTranslateValue(actualWidth.current, 0, offset));
 	const [active, setActive] = useState(false);
 	const DOMContainer = useMemo(
 		() => (containerId ? document.getElementById(containerId) : document.body),
 		[containerId]
 	);
-
-	useEffect(() => {
-		if (autoWidth) {
-			const w = paneRef.current ? paneRef.current.getBoundingClientRect().width : width;
-			const wP = ((w || 0) / document.body.clientWidth) * 100;
-			const wProunded = Math.round(wP);
-			const v = getTranslateValue(wProunded, translateRef.current, offset);
-			console.log(v);
-		}
-	}, [open, active, width, autoWidth, offset]);
 
 	useEffect(() => {
 		const { current } = ref;
@@ -112,27 +106,45 @@ export default function SidePane({
 		document.getElementById(appNodeId)?.setAttribute("aria-hidden", (!!open).toString());
 	}, [open, active, appNodeId, onActive]);
 
-	useEffect(() => {
-		const isActive = open || active;
-		if (isActive && typeof onActive === "function") {
-			onActive(open ? translateRef.current : 0);
-		}
-	}, [open, active, onActive]);
-
-	const handleActive = useCallback(
-		(childTranslateValue) => {
-			const newTranslateValue = getTranslateValue(width, childTranslateValue, offset);
+	const updateTranslateValue = useCallback(
+		(newTranslateValue) => {
 			translateRef.current = newTranslateValue;
 			paneRef.current.style.transform = `translateX(+100%) translateX(-${newTranslateValue}vw)`;
-			ref.current?.setAttribute("aria-hidden", (!!childTranslateValue).toString());
 			if (typeof onActive === "function") {
 				onActive(newTranslateValue);
 			}
 		},
-		[width, offset, onActive]
+		[onActive]
+	);
+	const handleActive = useCallback(
+		(childTranslateValue) => {
+			updateTranslateValue(
+				getTranslateValue(actualWidth.current, childTranslateValue, offset)
+			);
+		},
+		[offset, updateTranslateValue]
 	);
 	const handleEnter = useCallback(() => setActive(true), []);
-	const handleExited = useCallback(() => setActive(false), []);
+	const handleEntered = useCallback(() => {
+		if (autoWidth) {
+			const w = contentRef.current ? contentRef.current.getBoundingClientRect().width : 0;
+			const wP = (w / document.body.clientWidth) * 100;
+			actualWidth.current = wP;
+		} else {
+			actualWidth.current = width;
+		}
+		updateTranslateValue(getTranslateValue(actualWidth.current, 0, offset));
+		ref.current?.setAttribute("aria-hidden", "true");
+	}, [autoWidth, width, offset, updateTranslateValue]);
+	const handleExiting = useCallback(() => {
+		if (typeof onActive === "function") {
+			onActive(0);
+		}
+	}, [onActive]);
+	const handleExited = useCallback(() => {
+		setActive(false);
+		ref.current?.setAttribute("aria-hidden", "false");
+	}, []);
 
 	const isActive = open || active;
 	return createPortal(
@@ -165,14 +177,16 @@ export default function SidePane({
 						translateValue={translateRef.current}
 						width={width}
 						onEnter={handleEnter}
+						onEntered={handleEntered}
 						onExited={handleExited}
+						onExiting={handleExiting}
 					>
 						{active &&
 							(typeof children === "function"
 								? children({ onActive: handleActive })
 								: React.cloneElement(React.Children.only(children), {
 										onActive: handleActive,
-										contentRef: paneRef,
+										contentRef,
 								  }))}
 					</Pane>
 				</Backdrop>
@@ -186,6 +200,7 @@ SidePane.propTypes = {
 	"aria-describedby": PropTypes.string,
 	"aria-label": PropTypes.string,
 	"aria-labelledby": PropTypes.string,
+	autoWidth: PropTypes.bool,
 	backdropClassName: PropTypes.string,
 	// eslint-disable-next-line react/forbid-prop-types
 	backdropStyle: PropTypes.object,
