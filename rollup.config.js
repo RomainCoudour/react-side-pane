@@ -5,6 +5,7 @@ import autoprefixer from "autoprefixer";
 import postcss from "rollup-plugin-postcss";
 import filesize from "rollup-plugin-filesize";
 import banner2 from "rollup-plugin-banner2";
+import { terser } from "rollup-plugin-terser";
 import pkg from "./package.json";
 
 const makeExternalPredicate = (externalArr) => {
@@ -32,6 +33,7 @@ const plugins = [
 		autoModules: true,
 		extract: false,
 	}),
+	terser(),
 	banner2(
 		(chunk) => `
 /** @license React SidePane v${pkg.version}
