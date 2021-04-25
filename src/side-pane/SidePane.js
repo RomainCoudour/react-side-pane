@@ -62,7 +62,7 @@ export default function SidePane({
 }) {
 	const ref = useRef(null);
 	const paneRef = useRef(null);
-	const contentRef = useRef(null);
+	const paneContentRef = useRef(null);
 	const actualWidth = useRef(width);
 	const translateRef = useRef(getTranslateValue(actualWidth.current, 0, offset));
 	const [active, setActive] = useState(false);
@@ -117,6 +117,7 @@ export default function SidePane({
 	);
 	const handleActive = useCallback(
 		(childTranslateValue) => {
+			ref.current?.setAttribute("aria-hidden", (!!childTranslateValue).toString());
 			updateTranslateValue(
 				getTranslateValue(actualWidth.current, childTranslateValue, offset)
 			);
@@ -124,16 +125,15 @@ export default function SidePane({
 		[offset, updateTranslateValue]
 	);
 	const handleEnter = () => {
+		ref.current.focus();
 		setActive(true);
-		ref.current?.setAttribute("aria-hidden", "true");
 	};
-	const handleExited = () => {
-		setActive(false);
-		ref.current?.setAttribute("aria-hidden", "false");
-	};
+	const handleExited = () => setActive(false);
 	const handleEntered = () => {
 		if (autoWidth) {
-			const w = contentRef.current ? contentRef.current.getBoundingClientRect().width : 0;
+			const w = paneContentRef.current
+				? paneContentRef.current.getBoundingClientRect().width
+				: 0;
 			const wP = (w / document.body.clientWidth) * 100;
 			actualWidth.current = wP;
 		} else {
@@ -153,7 +153,7 @@ export default function SidePane({
 			autoFocus
 			disabled={!isActive}
 			returnFocus={!disableRestoreFocus}
-			shards={[paneRef.current]}
+			shards={[ref.current]}
 			whiteList={(node) => DOMContainer.contains(node)}
 		>
 			<div ref={ref} className={styles.sidePane} open={isActive} tabIndex={-1}>
@@ -187,7 +187,7 @@ export default function SidePane({
 								? children({ onActive: handleActive })
 								: React.cloneElement(React.Children.only(children), {
 										onActive: handleActive,
-										contentRef,
+										paneContentRef,
 								  }))}
 					</Pane>
 				</Backdrop>
