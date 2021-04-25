@@ -192,7 +192,7 @@ export default function SidePane({
 								? children({ onActive: handleActive })
 								: React.cloneElement(React.Children.only(children), {
 										onActive: handleActive,
-										paneContentRef,
+										ref: paneContentRef,
 								  }))}
 					</Pane>
 				</Backdrop>
