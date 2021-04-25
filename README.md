@@ -80,6 +80,21 @@ export default function SomeComponent({ someComponentProps, onActive }) {
 </SidePane>
 ```
 
+### Autowidth
+
+The `autoWidth` prop will override `width` by taking the width of the SidePane's content via ref. This ref is passed down from SidePane to its content via forwarding:
+
+```javascript
+const SidePaneContent = React.forwardRef(({ onActive }, ref) => {
+  // onActive callback to pass to an inner SidePane (see example above)
+  return (
+    <div ref={ref} style={{ width: "250px" }}>
+    {...}
+    </div>
+  );
+});
+```
+
 ## Props
 
 | Prop                 | Description                                                          |     Default      |
