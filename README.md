@@ -88,6 +88,7 @@ export default function SomeComponent({ someComponentProps, onActive }) {
 | aria-describedby     | aria-describedby                                                     |        ""        |
 | aria-label           | aria-label                                                           |   "side pane"    |
 | aria-labelledby      | aria-labelledby                                                      |        ""        |
+| autoWidth      | Will take the width bounding box's width of the SidePane's child instead of `width` |    false        |
 | backdropClassName    | Classname to pass to the backdrop                                    |        ""        |
 | backdropStyle        | Style object to pass to the backdrop                                 |        {}        |
 | `children`           | One React element or a function that can hold the onActive callback  |    (required)    |

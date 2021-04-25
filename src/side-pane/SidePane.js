@@ -37,6 +37,14 @@ import styles from "./SidePane.css";
  * @callback onActive - Callback from child to parent to pass on the child width on open
  * @callback onClose - Callback triggered on Escape or click on backdrop
  */
+
+const ariaHideContainer = (containerId, value) => {
+	const container = document.getElementById(containerId);
+	if (!container || container.getAttribute("aria-hidden") === value) {
+		return;
+	}
+	container.setAttribute("aria-hidden", value);
+};
 export default function SidePane({
 	appNodeId = "root",
 	"aria-describedby": ariaDescribedBy = "",
@@ -98,13 +106,6 @@ export default function SidePane({
 		}
 	}, [open, active]);
 
-	useEffect(() => {
-		if (onActive || !active) {
-			return;
-		}
-		document.getElementById(appNodeId)?.setAttribute("aria-hidden", (!!active).toString());
-	}, [active, appNodeId, onActive]);
-
 	const updateTranslateValue = useCallback(
 		(newTranslateValue) => {
 			translateRef.current = newTranslateValue;
@@ -117,14 +118,16 @@ export default function SidePane({
 	);
 	const handleActive = useCallback(
 		(childTranslateValue) => {
+			ariaHideContainer(appNodeId, "true");
 			ref.current?.setAttribute("aria-hidden", (!!childTranslateValue).toString());
 			updateTranslateValue(
 				getTranslateValue(actualWidth.current, childTranslateValue, offset)
 			);
 		},
-		[offset, updateTranslateValue]
+		[appNodeId, offset, updateTranslateValue]
 	);
 	const handleEnter = () => {
+		ariaHideContainer(appNodeId, "true");
 		ref.current.focus();
 		setActive(true);
 	};
@@ -144,6 +147,8 @@ export default function SidePane({
 	const handleExiting = () => {
 		if (typeof onActive === "function") {
 			onActive(0);
+		} else {
+			ariaHideContainer(appNodeId, "false");
 		}
 	};
 
