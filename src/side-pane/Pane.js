@@ -18,11 +18,14 @@ const Pane = React.forwardRef(
 			ariaLabel,
 			ariaLabelledby,
 			ariaDescribedBy,
+			autoWidth,
 			children,
 			className,
 			duration,
 			onEnter,
+			onEntered,
 			onExited,
+			onExiting,
 			open,
 			style,
 			translateValue,
@@ -40,7 +43,9 @@ const Pane = React.forwardRef(
 				in={open}
 				timeout={{ appear: 0, enter: 0, exit: duration }}
 				onEnter={onEnter}
+				onEntered={onEntered}
 				onExited={onExited}
+				onExiting={onExiting}
 			>
 				{(state) => (
 					<div
@@ -56,7 +61,7 @@ const Pane = React.forwardRef(
 							...dynamicTransitionStyles[state],
 							...getTransformTransition(duration),
 							...style,
-							width: `${Math.min(width, 100)}%`,
+							width: autoWidth ? "auto" : `${Math.min(width, 100)}%`,
 						}}
 					>
 						{children}

@@ -14,6 +14,12 @@ interface SidePaneProps {
 	"aria-labelledby"?: string;
 
 	/**
+	 * Will take the width bounding box's width of the SidePane's child instead of width
+	 * @default false
+	 */
+	autoWidth?: boolean;
+
+	/**
 	 * Classname to pass to the backdrop
 	 * @default ""
 	 */
