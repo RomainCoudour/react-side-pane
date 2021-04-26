@@ -151,8 +151,18 @@ export default function SidePane({
 			ariaHideContainer(appNodeId, "false");
 		}
 	};
+	const getContentPaneProps = () => {
+		const props = {
+			onActive: handleActive,
+		};
+		if (autoWidth) {
+			props.ref = paneContentRef;
+		}
+		return props;
+	};
 
 	const isActive = open || active;
+	const paneContentProps = getContentPaneProps();
 	return createPortal(
 		<FocusLock
 			autoFocus
@@ -190,10 +200,10 @@ export default function SidePane({
 						{active &&
 							(typeof children === "function"
 								? children({ onActive: handleActive })
-								: React.cloneElement(React.Children.only(children), {
-										onActive: handleActive,
-										ref: paneContentRef,
-								  }))}
+								: React.cloneElement(
+										React.Children.only(children),
+										paneContentProps
+								  ))}
 					</Pane>
 				</Backdrop>
 			</div>
