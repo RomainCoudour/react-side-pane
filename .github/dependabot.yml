@@ -4,10 +4,10 @@
 version: 2
 updates:
     - package-ecosystem: "npm"
-      open-pull-requests-limit: 2
+      open-pull-requests-limit: 5
       directory: "/"
       target-branch: "master"
-      versioning-strategy: increase-if-necessary
+      versioning-strategy: increase
       schedule:
           interval: "weekly"
           day: "sunday"
