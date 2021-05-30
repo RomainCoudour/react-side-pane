@@ -49,7 +49,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.14.3",
-		"@babel/eslint-parser": "^7.14.3",
+		"@babel/eslint-parser": "^7.14.4",
 		"@babel/helpers": "^7.14.0",
 		"@babel/plugin-proposal-object-rest-spread": "^7.14.2",
 		"@babel/plugin-proposal-optional-chaining": "^7.14.2",
