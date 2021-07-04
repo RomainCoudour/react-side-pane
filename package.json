@@ -80,7 +80,7 @@
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",
 		"rimraf": "^3.0.2",
-		"rollup": "^2.52.4",
+		"rollup": "^2.52.7",
 		"rollup-plugin-banner2": "^1.2.2",
 		"rollup-plugin-filesize": "^9.1.1",
 		"rollup-plugin-postcss": "^4.0.0",
