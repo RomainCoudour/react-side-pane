@@ -5,16 +5,16 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node: [10.x, 14.x]
-                react: [16.6.x, 17.0.x]
+                node: [12.x, 14.x, 16.x]
+                react: [16.8.x, 16.9.x, 17.0.x]
         steps:
-            - uses: actions/checkout@v1
-            - uses: actions/setup-node@v1
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
               with:
                   node-version: ${{ matrix.node }}
             - name: npm install, build, and test
               run: |
-                  npm install
+                  npm ci
                   npm run build
                   npm install react@${{ matrix.react }} react-dom@${{ matrix.react }} react-test-renderer@${{ matrix.react }}
                   npm run test
