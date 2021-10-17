@@ -4,8 +4,9 @@ jobs:
     build:
         runs-on: ubuntu-latest
         strategy:
+            fail-fast: true
             matrix:
-                node: [10.x, 14.x]
+                node: [12.x, 14.x, 16.x]
                 react: [16.6.x, 17.0.x]
         steps:
             - uses: actions/checkout@v1
