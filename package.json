@@ -50,7 +50,7 @@
 		"react-transition-group": "4.4.2"
 	},
 	"devDependencies": {
-		"@babel/core": "7.15.5",
+		"@babel/core": "7.15.8",
 		"@babel/eslint-parser": "7.15.7",
 		"@babel/helpers": "7.15.4",
 		"@babel/plugin-proposal-object-rest-spread": "7.15.6",
