@@ -6,7 +6,7 @@ jobs:
         strategy:
             matrix:
                 node: [12.x, 14.x, 16.x]
-                react: [16.6.x, 16.7.x, 16.8.x, 16.9.x, 16.10.x, 16.11.x, 16.12.x, 17.0.x]
+                react: [16.8.x, 16.9.x, 17.0.x]
         steps:
             - uses: actions/checkout@v2
             - uses: actions/setup-node@v2
