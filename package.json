@@ -62,7 +62,7 @@
 		"@rollup/plugin-commonjs": "21.0.0",
 		"@rollup/plugin-node-resolve": "13.0.5",
 		"@testing-library/react": "12.1.2",
-		"autoprefixer": "10.3.6",
+		"autoprefixer": "10.3.7",
 		"babel-jest": "27.2.5",
 		"babel-plugin-react-css-modules": "5.2.6",
 		"babel-plugin-transform-react-remove-prop-types": "0.4.24",
