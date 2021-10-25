@@ -87,7 +87,7 @@
 		"react-dom": "17.0.2",
 		"react-test-renderer": "17.0.2",
 		"rimraf": "3.0.2",
-		"rollup": "2.58.0",
+		"rollup": "2.58.1",
 		"rollup-plugin-banner2": "1.2.2",
 		"rollup-plugin-filesize": "9.1.1",
 		"rollup-plugin-postcss": "4.0.1",
