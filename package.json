@@ -67,7 +67,7 @@
 		"babel-plugin-react-css-modules": "5.2.6",
 		"babel-plugin-transform-react-remove-prop-types": "0.4.24",
 		"cross-env": "7.0.3",
-		"eslint": "8.0.1",
+		"eslint": "8.1.0",
 		"eslint-config-airbnb": "18.2.1",
 		"eslint-config-airbnb-base": "14.2.1",
 		"eslint-config-prettier": "8.3.0",
