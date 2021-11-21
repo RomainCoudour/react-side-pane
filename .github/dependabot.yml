@@ -10,7 +10,7 @@ updates:
       versioning-strategy: increase
       schedule:
           interval: "weekly"
-          day: "sunday"
+          day: "saturday"
       pull-request-branch-name:
           separator: "-"
       commit-message:

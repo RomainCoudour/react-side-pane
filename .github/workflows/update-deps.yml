@@ -1,8 +1,6 @@
 name: Automated update dependencies
 on:
     workflow_dispatch:
-    schedule:
-        - cron: "1 0 1 * *"
 jobs:
     update-deps:
         name: Automated update dependencies
@@ -17,7 +15,7 @@ jobs:
               with:
                   ref: ${{ github.ref }}
             - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v2
               with:
                   node-version: ${{ matrix.node-version }}
             - name: Setup Git
@@ -28,7 +26,7 @@ jobs:
             - name: Run update
               run: |
                   npm install -g npm-check-updates
-                  ncu -u --packageFile ./package.json --reject husky,react,react-dom
+                  ncu -u --packageFile ./package.json --reject react,react-dom
                   npm install
             - name: Create pull-request
               uses: peter-evans/create-pull-request@v3
