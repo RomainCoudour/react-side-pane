@@ -63,7 +63,7 @@
 		"@rollup/plugin-node-resolve": "13.0.6",
 		"@testing-library/react": "12.1.2",
 		"autoprefixer": "10.4.0",
-		"babel-jest": "27.3.1",
+		"babel-jest": "27.4.2",
 		"babel-plugin-react-css-modules": "5.2.6",
 		"babel-plugin-transform-react-remove-prop-types": "0.4.24",
 		"cross-env": "7.0.3",
