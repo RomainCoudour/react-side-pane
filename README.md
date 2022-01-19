@@ -156,6 +156,6 @@ function App() {
 }
 ```
 
-## Credit
+## Credits
 
 This project did not appear by magic. It was started at [Aitenders](https://www.aitenders.com/) as a more modern and nicer way to display data and additionnal user actions.
