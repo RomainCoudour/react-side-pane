@@ -158,4 +158,4 @@ function App() {
 
 ## Credits
 
-This project did not appear by magic. It was started at [Aitenders](https://www.aitenders.com/) as a more modern and nicer way to display data and additionnal user actions.
+This project was started at [Aitenders](https://www.aitenders.com/) as a more modern and nicer way to display data and additionnal user actions.
