@@ -23,6 +23,8 @@ Install react-side-pane
 
 ```
 npm i react-side-pane
+```
+```
 yarn add react-side-pane
 ```
 
